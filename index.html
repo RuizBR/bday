@@ -1,205 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Birthday Surprise 🎁</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Birthday Surprise 🎁</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
 
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Fredoka', cursive;
+  min-height: 100vh;
+  color: #444;
+  overflow-x: hidden;
+  text-align: center;
+}
 
-    body {
-      font-family: 'Fredoka', cursive;
-      min-height: 100vh;
-      color: #444;
-      overflow-x: hidden;
-      text-align: center;
-    }
+/* Button for music */
+.music-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
 
-    .music-btn {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      z-index: 10;
-      background: rgba(255,255,255,0.9);
-      border: none;
-      border-radius: 50%;
-      width: 46px;
-      height: 46px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
+/* Sections */
+section {
+  min-height: 100vh;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 40px 20px;
+  opacity: 0;
+  transition: opacity 1s ease;
+  position: relative;
+  overflow: hidden;
+}
 
-    section {
-      min-height: 100vh;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 40px 20px;
-      opacity: 0;
-      transition: opacity 1s ease;
-      position: relative;
-      overflow: hidden;
-    }
+section.active { display: flex; opacity: 1; }
 
-    section.active { display: flex; opacity: 1; }
+h1 {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  margin-bottom: 20px;
+}
 
-    h1 {
-      font-family: 'Baloo 2', cursive;
-      font-size: clamp(2.2rem, 6vw, 3.4rem);
-      margin-bottom: 20px;
-    }
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 30px;
+}
 
-    .subtitle {
-      font-size: 1.1rem;
-      opacity: 0.85;
-      margin-bottom: 30px;
-    }
+/* Step 0 - Countdown */
+#step0 {
+  background: #000;
+  color: #fff;
+}
+#step0 h1 { color: #fff; }
+#step0 .subtitle { color: #ddd; }
 
-    /* Step 0 - Countdown */
-    #step0 {
-      background: #000;
-      color: #fff;
-    }
-    #step0 h1 { color: #fff; }
-    #step0 .subtitle { color: #ddd; }
+.countdown {
+  font-size: clamp(4rem, 12vw, 7rem);
+  font-family: 'Baloo 2', cursive;
+  margin-top: 20px;
+  letter-spacing: 4px;
+}
 
-    .countdown {
-      font-size: clamp(4rem, 12vw, 7rem);
-      font-family: 'Baloo 2', cursive;
-      margin-top: 20px;
-      letter-spacing: 4px;
-    }
+/* Step 1 - Happy Birthday with typewriter */
+#step1 {
+  background: linear-gradient(135deg, #ffe6f0, #fef3c7, #d8f3dc);
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.typewriter {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-family: 'Baloo 2', cursive;
+  white-space: nowrap;
+  border-right: 0.15em solid #fb6f92;
+  overflow: hidden;
+}
 
-    /* Step 1 - Unboxing Gifts Background */
-    #step1 {
-      background: linear-gradient(135deg, #ffe6f0, #fef3c7, #d8f3dc);
-      color: #444;
-    }
-    #step1::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
-      background-size: 20px 20px;
-      pointer-events: none;
-      animation: sparkle 10s linear infinite;
-    }
-    @keyframes sparkle {
-      0% { background-position: 0 0; }
-      100% { background-position: 20px -20px; }
-    }
+/* Step 2 - Unboxing gifts */
+#step2 {
+  background: linear-gradient(135deg, #ffe6f0, #fef3c7, #d8f3dc);
+  color: #444;
+}
+#step2::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  animation: sparkle 10s linear infinite;
+}
+@keyframes sparkle {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px -20px; }
+}
 
-    /* Confetti */
-    .confetti {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 20;
-      overflow: visible;
-    }
+/* Gifts */
+.gift-area {
+  display: flex;
+  gap: clamp(20px, 6vw, 50px);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+}
 
-    /* Gifts */
-    .gift-area {
-      display: flex;
-      gap: clamp(20px, 6vw, 50px);
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 30px;
-      position: relative;
-      z-index: 1;
-    }
+.gift-container { position: relative; }
 
-    .gift-container {
-      position: relative; /* Added to position msg box relative to gift */
-    }
+.gift {
+  width: 110px;
+  height: 110px;
+  border-radius: 14px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+  animation: bounce 2.5s ease-in-out infinite;
+  z-index: 1;
+}
+.gift::before, .gift::after {
+  content: '';
+  position: absolute;
+  background: rgba(255,255,255,0.85);
+}
+.gift::before { width: 100%; height: 16px; top: 45%; left: 0; }
+.gift::after { width: 16px; height: 100%; left: 45%; top: 0; }
 
-    .gift {
-      width: 110px;
-      height: 110px;
-      border-radius: 14px;
-      position: relative;
-      cursor: pointer;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-      animation: bounce 2.5s ease-in-out infinite;
-      z-index: 1;
-    }
+.gift.red { background: linear-gradient(135deg, #ff6b6b, #ff8787); }
+.gift.blue { background: linear-gradient(135deg, #4dabf7, #74c0fc); }
+.gift.green { background: linear-gradient(135deg, #51cf66, #8ce99a); }
 
-    .gift::before, .gift::after {
-      content: '';
-      position: absolute;
-      background: rgba(255,255,255,0.85);
-    }
-    .gift::before { width: 100%; height: 16px; top: 45%; left: 0; }
-    .gift::after { width: 16px; height: 100%; left: 45%; top: 0; }
+@keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
 
-    .gift.red { background: linear-gradient(135deg, #ff6b6b, #ff8787); }
-    .gift.blue { background: linear-gradient(135deg, #4dabf7, #74c0fc); }
-    .gift.green { background: linear-gradient(135deg, #51cf66, #8ce99a); }
+/* Message box floating popup */
+.msg-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.98);
+  color: #444;
+  border-radius: 18px;
+  border: 2px dashed #fb6f92;
+  max-width: 180px;
+  font-size: 0.95rem;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 2;
+  text-align: center;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25); /* Floating shadow */
+}
 
-    @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+/* Letter */
+#step3 .envelope {
+  width: 220px;
+  height: 140px;
+  background: #fff3e0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+.envelope .letter {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  padding: 14px;
+  border-radius: 8px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  transition: top 1s ease;
+}
+.envelope.open .letter { top: 0; }
 
-    /* Message box now absolute over gift */
-    .msg-box {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 14px 18px;
-      background: rgba(255,255,255,0.95);
-      color: #444;
-      border-radius: 18px;
-      border: 2px dashed #ff8fab;
-      max-width: 180px;
-      font-size: 0.95rem;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      z-index: 2;
-      text-align: center;
-    }
-
-    /* Letter */
-    .envelope {
-      width: 220px;
-      height: 140px;
-      background: #fff3e0;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-    }
-    .envelope .letter {
-      position: absolute;
-      top: 100%;
-      width: 100%;
-      height: 100%;
-      background: #fff;
-      padding: 14px;
-      border-radius: 8px;
-      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-      transition: top 1s ease;
-    }
-    .envelope.open .letter { top: 0; }
-
-    button {
-      margin-top: 40px;
-      padding: 12px 28px;
-      border: none;
-      border-radius: 30px;
-      background: #fb6f92;
-      color: #fff;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-      position: relative;
-      z-index: 1;
-    }
-  </style>
+button {
+  margin-top: 40px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  background: #fb6f92;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 1;
+}
+</style>
 </head>
 <body>
 
@@ -216,8 +223,14 @@
   <div class="countdown" id="countdown">10</div>
 </section>
 
-<!-- Step 1: Gifts -->
+<!-- Step 1: Happy Birthday -->
 <section id="step1">
+  <div class="typewriter" id="birthdayText"></div>
+  <button onclick="nextStep(2)">➡️</button>
+</section>
+
+<!-- Step 2: Gifts -->
+<section id="step2">
   <h1>Unbox the Gifts 🎉</h1>
   <div class="subtitle">Tap each box to reveal a message</div>
   <div class="gift-area">
@@ -234,11 +247,11 @@
       <div class="msg-box"></div>
     </div>
   </div>
-  <button onclick="nextStep(2)">Next 💌</button>
+  <button onclick="nextStep(3)">Next 💌</button>
 </section>
 
-<!-- Step 2: Letter -->
-<section id="step2">
+<!-- Step 3: Letter -->
+<section id="step3">
   <h1>A Letter for You 💌</h1>
   <div class="subtitle">Pull it out slowly</div>
   <div class="envelope" onclick="this.classList.toggle('open')">
@@ -261,6 +274,8 @@ function nextStep(step){
     next.style.display = 'flex';
     setTimeout(()=>{ next.style.opacity = 1; }, 50);
     currentStep = step;
+
+    if(step===1) startTypewriter(); // Start typewriter animation
   }, 1000);
 }
 
@@ -284,6 +299,23 @@ function startCountdown(){
       setTimeout(()=>nextStep(1), 1200);
     }
   }, 1000);
+}
+
+// Typewriter animation
+const birthdayTextEl = document.getElementById('birthdayText');
+const birthdayMessage = "Happy 21st Birthday!";
+function startTypewriter(){
+  birthdayTextEl.textContent = '';
+  let i = 0;
+  const speed = 150;
+  function type(){
+    if(i < birthdayMessage.length){
+      birthdayTextEl.textContent += birthdayMessage.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    }
+  }
+  type();
 }
 
 // Confetti
@@ -326,7 +358,6 @@ function launchConfetti(){
 function openGift(gift,msg){
   if(gift.classList.contains('unwrap')) return;
 
-  // Animate gift
   gift.style.transition = 'transform 0.7s ease, opacity 0.7s ease';
   gift.style.transform = 'scale(0) rotate(360deg)';
   gift.style.opacity = 0;
