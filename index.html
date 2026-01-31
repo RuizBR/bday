@@ -13,37 +13,9 @@
     body {
       font-family: 'Fredoka', cursive;
       min-height: 100vh;
-      background: linear-gradient(180deg, #ffe6eb, #f7c6d0);
       color: #444;
       overflow-x: hidden;
       text-align: center;
-    }
-
-    /* Background collage */
-    .bg-collage {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      gap: 6px;
-    }
-
-    .bg-collage img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: blur(1px) brightness(0.6); /* slightly darker */
-    }
-
-    /* Overlay to darken the collage (neutral) */
-    .bg-collage::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      pointer-events: none;
     }
 
     .music-btn {
@@ -70,12 +42,11 @@
       padding: 40px 20px;
       opacity: 0;
       transition: opacity 1s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    section.active {
-      display: flex;
-      opacity: 1;
-    }
+    section.active { display: flex; opacity: 1; }
 
     h1 {
       font-family: 'Baloo 2', cursive;
@@ -89,7 +60,11 @@
       margin-bottom: 30px;
     }
 
-    #step0 { background: #000; color: #fff; }
+    /* Step 0 - Countdown */
+    #step0 {
+      background: #000;
+      color: #fff;
+    }
     #step0 h1 { color: #fff; }
     #step0 .subtitle { color: #ddd; }
 
@@ -100,6 +75,27 @@
       letter-spacing: 4px;
     }
 
+    /* Step 1 - Unboxing Gifts Background */
+    #step1 {
+      background: linear-gradient(135deg, #ffe6f0, #fef3c7, #d8f3dc);
+      color: #444;
+    }
+    /* Subtle sparkle overlay */
+    #step1::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+      animation: sparkle 10s linear infinite;
+    }
+    @keyframes sparkle {
+      0% { background-position: 0 0; }
+      100% { background-position: 20px -20px; }
+    }
+
+    /* Confetti */
     .confetti {
       position: fixed;
       inset: 0;
@@ -108,12 +104,15 @@
       overflow: visible;
     }
 
+    /* Gifts */
     .gift-area {
       display: flex;
       gap: clamp(20px, 6vw, 50px);
       flex-wrap: wrap;
       justify-content: center;
       margin-top: 30px;
+      position: relative;
+      z-index: 1;
     }
 
     .gift {
@@ -152,31 +151,49 @@
       display: none;
       opacity: 0;
       transition: opacity 0.8s ease;
+      position: relative;
+      z-index: 1;
     }
 
-    button { margin-top: 40px; padding: 12px 28px; border: none; border-radius: 30px; background: #fb6f92; color: #fff; font-size: 1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-
-    .envelope { width: 220px; height: 140px; background: #fff3e0; border-radius: 12px; overflow: hidden; cursor: pointer; position: relative; }
-    .envelope .letter { position: absolute; top: 100%; width: 100%; height: 100%; background: #fff; padding: 14px; border-radius: 8px; box-shadow: 0 8px 15px rgba(0,0,0,0.2); transition: top 1s ease; }
+    /* Letter */
+    .envelope {
+      width: 220px;
+      height: 140px;
+      background: #fff3e0;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .envelope .letter {
+      position: absolute;
+      top: 100%;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      padding: 14px;
+      border-radius: 8px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+      transition: top 1s ease;
+    }
     .envelope.open .letter { top: 0; }
 
+    button {
+      margin-top: 40px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 30px;
+      background: #fb6f92;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
   </style>
 </head>
 <body>
-
-<div class="bg-collage">
-  <img src="BDAY/1.jpg" />
-  <img src="BDAY/2.jpg" />
-  <img src="BDAY/3.jpg" />
-  <img src="BDAY/4.jpg" />
-  <img src="BDAY/5.jpg" />
-  <img src="BDAY/6.jpg" />
-  <img src="BDAY/7.jpg" />
-  <img src="BDAY/8.jpg" />
-  <img src="BDAY/9.jpg" />
-  <img src="BDAY/10.jpg" />
-  <img src="BDAY/11.jpg" />
-</div>
 
 <button class="music-btn" onclick="toggleMusic()">🎵</button>
 <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
@@ -184,12 +201,14 @@
 
 <div class="confetti" id="confetti"></div>
 
+<!-- Step 0: Countdown -->
 <section class="active" id="step0">
   <h1>Are you ready? 🎁</h1>
   <div class="subtitle">The surprise starts in</div>
   <div class="countdown" id="countdown">10</div>
 </section>
 
+<!-- Step 1: Gifts -->
 <section id="step1">
   <h1>Unbox the Gifts 🎉</h1>
   <div class="subtitle">Tap each box to reveal a message</div>
@@ -201,6 +220,7 @@
   <button onclick="nextStep(2)">Next 💌</button>
 </section>
 
+<!-- Step 2: Letter -->
 <section id="step2">
   <h1>A Letter for You 💌</h1>
   <div class="subtitle">Pull it out slowly</div>
@@ -214,10 +234,10 @@
 <script>
 let currentStep = 0;
 
+// Step transition
 function nextStep(step){
   const prev = document.getElementById('step'+currentStep);
   const next = document.getElementById('step'+step);
-
   prev.style.opacity = 0;
   setTimeout(()=>{
     prev.style.display = 'none';
@@ -249,7 +269,7 @@ function startCountdown(){
   }, 1000);
 }
 
-// Confetti with rotation and scatter
+// Confetti
 function launchConfetti(){
   const confetti = document.getElementById('confetti');
   confetti.innerHTML = '';
