@@ -1,196 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Birthday Surprise 🎁</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Birthday Surprise 🎁</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
 
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Fredoka', cursive;
-      min-height: 100vh;
-      color: #444;
-      overflow-x: hidden;
-      text-align: center;
-      background: #000; /* default */
-    }
+  body {
+    font-family: 'Fredoka', cursive;
+    min-height: 100vh;
+    overflow-x: hidden;
+    text-align: center;
+  }
 
-    .music-btn {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      z-index: 10;
-      background: rgba(255,255,255,0.9);
-      border: none;
-      border-radius: 50%;
-      width: 46px;
-      height: 46px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
+  section {
+    min-height: 100vh;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px 20px;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
 
-    section {
-      min-height: 100vh;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 40px 20px;
-      opacity: 0;
-      transition: opacity 1s ease;
-      position: relative;
-    }
+  section.active { display: flex; opacity: 1; }
 
-    section.active { display: flex; opacity: 1; }
+  h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    margin-bottom: 20px;
+  }
 
-    h1 { margin-bottom: 20px; }
+  .subtitle { font-size: 1.1rem; opacity: 0.85; margin-bottom: 30px; }
 
-    .subtitle { font-size: 1.1rem; opacity: 0.85; margin-bottom: 30px; }
+  /* ----------------- Step Backgrounds ----------------- */
+  #step0 { background: #000; color: #fff; }
+  #step1 {
+    background: url('BDAY/1.jpg') center/cover no-repeat;
+    position: relative;
+  }
+  #step1::after {
+    content:'';
+    position:absolute; inset:0;
+    background: rgba(0,0,0,0.65);
+  }
+  #step1 .container { position: relative; z-index: 2; background: rgba(0,0,0,0.4); padding:40px 30px; border-radius:20px; box-shadow:0 15px 25px rgba(0,0,0,0.3);}
+  
+  #step2 { background: linear-gradient(180deg, #fff1f3, #ffe6e9); color: #444; }
+  #step3 { background: linear-gradient(180deg, #fffaf0, #fff3e0); color: #444; }
 
-    /* Step 0: Are you ready */
-    #step0 { background: #000; color: #fff; }
-    #step0 h1, #step0 .subtitle { color: #fff; }
-    .countdown {
-      font-family: 'Baloo 2', cursive;
-      font-size: clamp(4rem,12vw,7rem);
-      margin-top: 20px;
-      letter-spacing: 4px;
-    }
+  /* ----------------- Countdown ----------------- */
+  .countdown { font-size: clamp(4rem, 12vw, 7rem); font-family: 'Baloo 2', cursive; margin-top: 20px; letter-spacing:4px; }
 
-    /* Step 1: Happy 21st Birthday */
-    #step1 { overflow: hidden; }
-    .birthday-bg {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      grid-template-rows: repeat(4,1fr);
-      gap: 4px;
-      z-index: 0;
-    }
-    .birthday-bg img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.25) blur(1px); }
-    .birthday-container {
-      position: relative;
-      z-index: 2;
-      background: rgba(0,0,0,0.65);
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-10px); } }
-    .typewriter {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(3rem,8vw,6rem);
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 0.15em solid #fff;
-    }
-    .next-btn {
-      margin-top: 30px;
-      background: #fb6f92;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 1.5rem;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-      cursor: pointer;
-      border: none;
-      color: #fff;
-      transition: transform 0.3s ease;
-    }
-    .next-btn:hover { transform: translateY(-5px) scale(1.05); }
+  /* ----------------- Music Button ----------------- */
+  .music-btn {
+    position: fixed; top:16px; right:16px; z-index: 10;
+    background: rgba(255,255,255,0.9); border: none; border-radius: 50%;
+    width:46px; height:46px; font-size:1.2rem; cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  }
 
-    /* Confetti */
-    .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 20; overflow: visible; }
+  /* ----------------- Gifts ----------------- */
+  .gift-area { display: flex; gap: clamp(20px, 6vw, 50px); flex-wrap: wrap; justify-content: center; margin-top:30px; position:relative; }
+  .gift { width:110px; height:110px; border-radius:14px; position: relative; cursor:pointer; box-shadow:0 12px 25px rgba(0,0,0,0.25); animation:bounce 2.5s ease-in-out infinite; }
+  .gift::before, .gift::after { content:''; position:absolute; background:rgba(255,255,255,0.85); }
+  .gift::before { width:100%; height:16px; top:45%; left:0; } .gift::after { width:16px; height:100%; left:45%; top:0; }
+  .gift.red { background: linear-gradient(135deg,#ff6b6b,#ff8787); }
+  .gift.blue { background: linear-gradient(135deg,#4dabf7,#74c0fc); }
+  .gift.green { background: linear-gradient(135deg,#51cf66,#8ce99a); }
 
-    /* Step 2: Gifts */
-    .gift-area { display: flex; gap: clamp(20px,6vw,50px); flex-wrap: wrap; justify-content: center; margin-top:30px; }
-    .gift {
-      width: 110px; height: 110px; border-radius: 14px; position: relative; cursor: pointer;
-      box-shadow: 0 12px 25px rgba(0,0,0,0.25); animation: bounce 2.5s ease-in-out infinite;
-    }
-    .gift::before, .gift::after { content: ''; position: absolute; background: rgba(255,255,255,0.85); }
-    .gift::before { width: 100%; height: 16px; top: 45%; left:0; }
-    .gift::after { width:16px;height:100%;left:45%;top:0; }
-    .gift.red { background: linear-gradient(135deg,#ff6b6b,#ff8787); }
-    .gift.blue { background: linear-gradient(135deg,#4dabf7,#74c0fc); }
-    .gift.green { background: linear-gradient(135deg,#51cf66,#8ce99a); }
-    @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
+  @keyframes bounce {0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
 
-    .msg-box {
-      position: absolute;
-      top: 120%;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-top: 20px;
-      padding: 14px 18px;
-      background: rgba(255,255,255,0.95);
-      color: #444;
-      border-radius: 18px;
-      border: 2px dashed #ff8fab;
-      max-width: 240px;
-      font-size: 0.95rem;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
+  .msg-box {
+    position:absolute; top:-50px; left:50%; transform:translateX(-50%);
+    padding:14px 18px; background:rgba(255,255,255,0.95);
+    color:#444; border-radius:18px; border:2px dashed #ff8fab;
+    max-width:240px; font-size:0.95rem; display:none; opacity:0;
+    transition: opacity 0.8s ease;
+    z-index:2;
+  }
 
-    /* Step 3: Letter */
-    .envelope { width:220px; height:140px; background:#fff3e0; border-radius:12px; overflow:hidden; cursor:pointer; position:relative; }
-    .envelope .letter { position:absolute; top:100%; width:100%; height:100%; background:#fff; padding:14px; border-radius:8px; box-shadow:0 8px 15px rgba(0,0,0,0.2); transition: top 1s ease; }
-    .envelope.open .letter { top:0; }
+  /* ----------------- Letter ----------------- */
+  .envelope { width:220px; height:140px; background:#fff3e0; border-radius:12px; overflow:hidden; cursor:pointer; position:relative; }
+  .envelope .letter { position:absolute; top:100%; width:100%; height:100%; background:#fff; padding:14px; border-radius:8px; box-shadow:0 8px 15px rgba(0,0,0,0.2); transition: top 1s ease; }
+  .envelope.open .letter { top:0; }
 
-    button { margin-top:40px; padding:12px 28px; border:none; border-radius:30px; background:#fb6f92; color:#fff; font-size:1rem; cursor:pointer; box-shadow:0 10px 20px rgba(0,0,0,0.2); }
-  </style>
+  /* ----------------- Confetti ----------------- */
+  .confetti { position:fixed; inset:0; pointer-events:none; z-index:20; overflow:visible; }
+
+  /* ----------------- Happy Birthday Typewriter ----------------- */
+  .typewriter h1 {
+    overflow: hidden; border-right: .15em solid #fff; white-space: nowrap; letter-spacing: .05em;
+    animation: typing 3s steps(30, end), blink-caret .75s step-end infinite;
+  }
+  @keyframes typing { from { width:0 } to { width:100% } }
+  @keyframes blink-caret { 50% { border-color: transparent; } }
+
+  /* ----------------- Arrow Button ----------------- */
+  .arrow-btn { margin-top: 30px; padding:12px 20px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; }
+
+</style>
 </head>
 <body>
 
-<!-- Music Button -->
 <button class="music-btn" onclick="toggleMusic()">🎵</button>
 <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
 <audio id="tickSound"><source src="countdown.mp3" type="audio/mpeg"></audio>
-
 <div class="confetti" id="confetti"></div>
 
-<!-- STEP 0: Are you ready -->
+<!-- Step 0: Are You Ready -->
 <section class="active" id="step0">
   <h1>Are you ready? 🎁</h1>
   <div class="subtitle">The surprise starts in</div>
   <div class="countdown" id="countdown">10</div>
 </section>
 
-<!-- STEP 1: Happy 21st Birthday -->
+<!-- Step 1: Happy Birthday -->
 <section id="step1">
-  <div class="birthday-bg">
-    <img src="BDAY/1.jpg">
-    <img src="BDAY/2.jpg">
-    <img src="BDAY/3.jpg">
-    <img src="BDAY/4.jpg">
-    <img src="BDAY/5.jpg">
-    <img src="BDAY/6.jpg">
-    <img src="BDAY/7.jpg">
-    <img src="BDAY/8.jpg">
-    <img src="BDAY/9.jpg">
-    <img src="BDAY/10.jpg">
-    <img src="BDAY/11.jpg">
-  </div>
-  <div class="birthday-container">
-    <div class="typewriter" id="birthdayText">Happy 21st Birthday!</div>
-    <button class="next-btn" onclick="nextStep(2)">➡️</button>
+  <div class="container typewriter">
+    <h1>Happy 21st Birthday!</h1>
+    <button class="arrow-btn" onclick="nextStep(2)">→</button>
   </div>
 </section>
 
-<!-- STEP 2: Gifts -->
+<!-- Step 2: Unbox Gifts -->
 <section id="step2">
   <h1>Unbox the Gifts 🎉</h1>
   <div class="subtitle">Tap each box to reveal a message</div>
@@ -202,33 +140,25 @@
   <button onclick="nextStep(3)">Next 💌</button>
 </section>
 
-<!-- STEP 3: Letter -->
+<!-- Step 3: Letter -->
 <section id="step3">
   <h1>A Letter for You 💌</h1>
   <div class="subtitle">Pull it out slowly</div>
   <div class="envelope" onclick="this.classList.toggle('open')">
     <div class="letter">
-      <p>Dear Bestie,<br><br>
-      Thank you for the laughs, the chaos, and the comfort. Life is brighter with you around, and I’m so grateful for our friendship. I hope this year brings you happiness, growth, and all the good things you deserve.<br><br>
-      Always here for you 🤍
-      </p>
+      <p>Dear Bestie,<br><br>Thank you for the laughs, the chaos, and the comfort. Life is brighter with you around, and I’m so grateful for our friendship. I hope this year brings you happiness, growth, and all the good things you deserve.<br><br>Always here for you 🤍</p>
     </div>
   </div>
 </section>
 
 <script>
-// Step control
 let currentStep = 0;
+
 function nextStep(step){
   const prev = document.getElementById('step'+currentStep);
   const next = document.getElementById('step'+step);
   prev.style.opacity = 0;
-  setTimeout(()=>{
-    prev.style.display = 'none';
-    next.style.display = 'flex';
-    setTimeout(()=>{ next.style.opacity = 1; },50);
-    currentStep = step;
-  },1000);
+  setTimeout(()=>{ prev.style.display='none'; next.style.display='flex'; setTimeout(()=>{next.style.opacity=1;},50); currentStep=step; },1000);
 }
 
 // Countdown
@@ -252,48 +182,41 @@ function startCountdown(){
 
 // Confetti
 function launchConfetti(){
-  const confetti = document.getElementById('confetti');
-  confetti.innerHTML = '';
-  const colors = ['#ff6b6b','#ffd43b','#69db7c','#4dabf7','#da77f2'];
-
+  const confetti=document.getElementById('confetti');
+  confetti.innerHTML='';
+  const colors=['#ff6b6b','#ffd43b','#69db7c','#4dabf7','#da77f2'];
   for(let i=0;i<150;i++){
-    const piece = document.createElement('span');
-    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
-    piece.style.width = 12 + Math.random()*16 + 'px';
-    piece.style.height = 14 + Math.random()*18 + 'px';
-    piece.style.borderRadius = Math.random()>0.5?'50%':'4px';
-    piece.style.left = '50%';
-    piece.style.top = '50%';
-    piece.style.position = 'absolute';
-    piece.style.opacity = 1;
+    const piece=document.createElement('span');
+    piece.style.background=colors[Math.floor(Math.random()*colors.length)];
+    piece.style.width=12+Math.random()*16+'px';
+    piece.style.height=14+Math.random()*18+'px';
+    piece.style.borderRadius=Math.random()>0.5?'50%':'4px';
+    piece.style.left='50%'; piece.style.top='50%'; piece.style.position='absolute'; piece.style.opacity=1;
 
-    const angle = Math.random() * 2 * Math.PI;
-    const distance = 100 + Math.random()*250;
-    const dx = Math.cos(angle) * distance;
-    const dy = Math.sin(angle) * distance + 50;
-    const duration = 2 + Math.random()*1.5;
+    const angle=Math.random()*2*Math.PI;
+    const distance=100+Math.random()*250;
+    const dx=Math.cos(angle)*distance;
+    const dy=Math.sin(angle)*distance+50;
+    const duration=2+Math.random()*1.5;
 
-    piece.style.transition = `transform ${duration}s ease-out, opacity ${duration}s ease-out`;
+    piece.style.transition=`transform ${duration}s ease-out, opacity ${duration}s ease-out`;
     confetti.appendChild(piece);
 
-    setTimeout(()=>{ 
-      piece.style.transform = `translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`; 
-      piece.style.opacity=0;
-    },50);
+    setTimeout(()=>{ piece.style.transform=`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`; piece.style.opacity=0; },50);
   }
   setTimeout(()=>{ confetti.innerHTML=''; },3500);
 }
 
-// Gifts
+// Gift unwrap
 function openGift(gift,msg){
   if(gift.classList.contains('unwrap')) return;
   gift.style.transition='transform 0.7s ease, opacity 0.7s ease';
   gift.style.transform='scale(0) rotate(360deg)';
   gift.style.opacity=0;
 
-  const box = gift.parentElement.querySelector('.msg-box');
+  const box=gift.parentElement.querySelector('.msg-box');
   setTimeout(()=>{
-    box.textContent = msg;
+    box.textContent=msg;
     box.style.display='block';
     box.style.opacity=0;
     setTimeout(()=>{ box.style.opacity=1; },50);
@@ -305,18 +228,9 @@ function openGift(gift,msg){
 const bgMusic=document.getElementById('bgMusic');
 function toggleMusic(){ if(bgMusic.paused) bgMusic.play(); else bgMusic.pause(); }
 
-// Typewriter animation for Step 1
-function typeWriter(el,text,speed=120){
-  let i=0;
-  el.textContent='';
-  function type(){ if(i<text.length){ el.textContent+=text.charAt(i); i++; setTimeout(type,speed); } }
-  type();
-}
-
+// Start
 nextStep(0);
 startCountdown();
-typeWriter(document.getElementById('birthdayText'), 'Happy 21st Birthday!');
 </script>
-
 </body>
 </html>
