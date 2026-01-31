@@ -104,29 +104,29 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 40vh;               /* gives more vertical breathing room */
+      min-height: 40vh;
     }
 
+    /* Multi-line Happy Birthday */
     #step1 .typewriter h1 {
       font-family: 'Pacifico', cursive;
-      font-size: clamp(2.3rem, 7.8vw, 4.6rem);   /* reduced max size to prevent overflow */
-      line-height: 1.15;
+      font-size: clamp(2.3rem, 7.8vw, 4.6rem);
+      line-height: 1.2;
       color: white;
       text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
       margin: 0.3em 0 0.7em;
       padding: 0 0.6em;
       max-width: 100%;
-      word-wrap: break-word;                    /* allow long words to break */
+      word-wrap: break-word;
       overflow-wrap: break-word;
-      hyphens: auto;                            /* better line breaking in supported browsers */
-      white-space: normal;                      /* ← crucial: allow wrapping to multiple lines */
+      hyphens: auto;
+      white-space: normal;
       text-align: center;
-      animation: typing 4s steps(35, end) forwards, blink-caret 1s step-end infinite;
+      animation: typing 3s steps(12, end) forwards, blink-caret 1s step-end infinite;
     }
 
-    /* Remove typing animation border when wrapped */
     #step1 .typewriter h1::after {
-      content: none;   /* optional: hide cursor on multi-line */
+      content: none;
     }
 
     /* ── GIFTS (STEP 2) ─────────────────────────────── */
@@ -209,7 +209,6 @@
       transform: translate(-50%, -50%) scale(1);
     }
 
-    /* Small screen safety */
     @media (max-width: 480px) {
       #step1 .typewriter h1 {
         font-size: clamp(2.1rem, 9vw, 4rem);
@@ -221,7 +220,6 @@
       }
     }
 
-    /* ── OTHER ELEMENTS ─────────────────────────────── */
     .music-btn {
       position: fixed;
       top: 16px;
@@ -257,7 +255,7 @@
     .arrow-btn {
       font-size: 3.5rem;
       color: white;
-      background: transparent;           /* ← no background color */
+      background: transparent;
       border: 2px solid rgba(255, 255, 255, 0.5);
       padding: 0.4rem 1.2rem;
       min-width: 80px;
@@ -313,7 +311,6 @@
       top: 0;
     }
 
-    /* Animations */
     @keyframes typing {
       from { width: 0; }
       to   { width: 100%; }
@@ -356,7 +353,10 @@
       <img src="BDAY/9.jpg" />
     </div>
     <div class="container typewriter">
-      <h1>Happy 21st Birthday!</h1>
+      <h1>
+        Happy<br />
+        Birthday
+      </h1>
       <button class="arrow-btn" onclick="nextStep(2)">→</button>
     </div>
   </section>
@@ -390,8 +390,7 @@
       <div class="letter">
         <p>
           Dear Bestie,<br /><br />
-          Thank you for the laughs, the chaos, and the comfort. Life is brighter with you around, and I’m so grateful for our friendship. I hope this year brings you happiness, growth, and all the good things you deserve.<br /><br />
-          Always here for you 🤍
+          Happy 21st Birthday, Aliah! You’ve shown the world that strength, independence, and kindness can live beautifully in one amazing woman. Your courage, growth, and determination inspire everyone around you. Through every challenge, you stood tall, grew stronger, and became someone so many people are genuinely proud of. This is only the beginning of even greater things—cheers to the incredible journey ahead of you. 🥂✨🤍
         </p>
       </div>
     </div>
