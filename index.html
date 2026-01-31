@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Birthday Surprise 🎁</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&family=Pacifico&display=swap" rel="stylesheet"> 
 
 <style>
 /* --- Global --- */
@@ -47,32 +47,25 @@ h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6.5vw,4.5rem); margi
 .msg-box.show { opacity:1; transform:translate(-50%,-50%) scale(1); }
 
 /* --- Step 3 Letter --- */
-/* --- Step 3 Letter with Background Image --- */
 #step3 {
   background: url('BDAY/12.jpg') no-repeat center center;
   background-size: cover;
   color: #333;
   position: relative;
 }
-
 #step3::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.6); /* semi-transparent overlay for readability */
+  background: rgba(255, 255, 255, 0.6);
   z-index: 0;
 }
+#step3 h1, #step3 .subtitle, #step3 .envelope, #step3 button { position: relative; z-index: 1; }
 
-#step3 h1,
-#step3 .subtitle,
-#step3 .envelope {
-  position: relative;
-  z-index: 1; /* make sure text and envelope are above overlay */
-}
 .envelope { width:320px; height:220px; background:#fff3e0; border-radius:14px; overflow:hidden; cursor:pointer; position:relative; margin:2rem 0; }
 .envelope .letter {
   position:absolute;
-  top:100%; /* hidden initially */
+  top:100%;
   width:100%;
   height:100%;
   background:#fff;
@@ -82,9 +75,18 @@ h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6.5vw,4.5rem); margi
   transition:top 1s ease;
   font-size:1.1rem;
   line-height:1.6;
-  overflow-y:auto; /* scroll if content too long */
+  overflow-y:auto;
 }
 .envelope.open .letter { top:0; }
+
+/* Slideshow */
+#slideshow { background:#fefefe; color:#333; flex-direction:column; text-align:center; position:relative; }
+.slideshow-container { position:relative; width:90%; max-width:700px; margin:2rem auto; }
+.slideshow-container img { width:100%; height:auto; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,.3); }
+.slide-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.3); border:none; color:white; font-size:2rem; padding:.4rem 1rem; cursor:pointer; border-radius:10px; }
+.slide-btn:hover { background:rgba(0,0,0,.6); }
+.slide-btn.left { left:0; }
+.slide-btn.right { right:0; }
 
 /* --- Buttons, Confetti --- */
 .music-btn { position:fixed; top:16px; right:16px; z-index:100; background:rgba(255,255,255,.9); border:none; border-radius:50%; width:50px; height:50px; font-size:1.4rem; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.25); }
@@ -170,20 +172,37 @@ button { background:#ff6b6b; color:white; box-shadow:0 6px 16px rgba(255,107,107
       </p>
     </div>
   </div>
+  <button class="arrow-btn" onclick="nextStep('slideshow')">View Memories 📸</button>
+</section>
+
+<!-- Slideshow Section -->
+<section id="slideshow">
+  <h1>Memories 📸</h1>
+  <div class="subtitle">Swipe or use arrows to navigate</div>
+  <div class="slideshow-container">
+    <button class="slide-btn left" onclick="changeSlide(-1)">&#10094;</button>
+    <img id="slideImage" src="BDAY/1.jpg" alt="Memory" />
+    <button class="slide-btn right" onclick="changeSlide(1)">&#10095;</button>
+  </div>
 </section>
 
 <script>
 // Steps
 let currentStep=0;
 function nextStep(step){
-  const prev=document.getElementById("step"+currentStep);
-  const next=document.getElementById("step"+step);
-  prev.style.opacity=0;
+  const prev = document.getElementById("step"+currentStep) || document.getElementById(currentStep);
+  let next;
+  if(step === 'slideshow'){
+    next = document.getElementById("slideshow");
+  } else {
+    next = document.getElementById("step"+step);
+  }
+  if(prev) prev.style.opacity=0;
   setTimeout(()=>{
-    prev.style.display="none";
+    if(prev) prev.style.display="none";
     next.style.display="flex";
     setTimeout(()=>{next.style.opacity=1;},50);
-    currentStep=step;
+    currentStep = (step==='slideshow') ? 'slideshow' : step;
     if(step===1) startStep1Typewriter();
   },1000);
 }
@@ -261,6 +280,16 @@ function typeWriter(){
   else {birthdayText.style.borderRight="none";}
 }
 function startStep1Typewriter(){birthdayText.innerHTML=""; i=0; typeWriter();}
+
+// Slideshow
+let currentSlide = 1;
+const totalSlides = 12;
+function changeSlide(n){
+  currentSlide += n;
+  if(currentSlide > totalSlides) currentSlide = 1;
+  if(currentSlide < 1) currentSlide = totalSlides;
+  document.getElementById('slideImage').src = `BDAY/${currentSlide}.jpg`;
+}
 
 // Initialize
 nextStep(0);
