@@ -10,96 +10,249 @@
 
 <style>
 * { box-sizing: border-box; margin:0; padding:0; }
-body { font-family: 'Fredoka', cursive; min-height: 100vh; overflow-x: hidden; text-align:center; }
+body {
+  font-family: 'Fredoka', cursive;
+  min-height: 100vh;
+  overflow-x: hidden;
+  text-align: center;
+  background: #f8f9fa;
+}
 
 /* Sections */
-section { min-height:100vh; display:none; align-items:center; justify-content:center; flex-direction:column; padding:40px 20px; opacity:0; transition:opacity 1s ease; }
-section.active { display:flex; opacity:1; }
+section {
+  min-height: 100vh;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 3vh 5vw;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+section.active {
+  display: flex;
+  opacity: 1;
+}
 
-h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bottom:20px; }
-.subtitle { font-size:1.1rem; opacity:0.85; margin-bottom:30px; }
+h1 {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  margin-bottom: 20px;
+}
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 30px;
+}
 
 /* Step Backgrounds */
-#step0 { background:#000; color:#fff; }
-#step1 { position:relative; color:#fff; }
+#step0 { background: #000; color: #fff; }
+#step1 { position: relative; color: #fff; overflow: hidden; }
 #step1 .collage {
-  position:absolute; inset:0; display:grid; grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(3,1fr); z-index:0;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  z-index: 0;
 }
 #step1 .collage img {
-  width:100%; height:100%; object-fit:cover; filter: brightness(0.25);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.25);
 }
-#step1 .container { position:relative; z-index:2; background: rgba(0,0,0,0.6); padding:50px 40px; border-radius:20px; box-shadow:0 15px 25px rgba(0,0,0,0.3); color:#fff; }
+#step1 .container {
+  position: relative;
+  z-index: 2;
+  background: rgba(0,0,0,0.60);
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 3.5rem);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+  max-width: 90vw;
+  width: 100%;
+  max-width: 680px;
+  text-align: center;
+  backdrop-filter: blur(4px);
+}
 
-/* Fancy Birthday Font */
 #step1 .typewriter h1 {
   font-family: 'Pacifico', cursive;
-  font-size: clamp(3rem, 8vw, 5rem);
+  font-size: clamp(2.8rem, 9vw, 5.5rem);
   color: #ffd43b;
-  text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
-  overflow:hidden;
-  border-right:.15em solid #fff;
-  white-space:nowrap;
-  letter-spacing:.05em;
-  animation: typing 3s steps(30,end), blink-caret .75s step-end infinite;
+  text-shadow: 2px 2px 12px rgba(0,0,0,0.5);
+  margin: 0.4em 0 0.6em;
+  overflow: hidden;
+  border-right: .15em solid #fff;
+  white-space: nowrap;
+  animation: typing 3.2s steps(32,end), blink-caret .8s step-end infinite;
 }
 
-/* Step 2 & 3 */
-#step2 { background: linear-gradient(180deg,#fff1f3,#ffe6e9); color:#444; }
-#step3 { background: linear-gradient(180deg,#fffaf0,#fff3e0); color:#444; }
+#step2 { background: linear-gradient(180deg, #fff1f3, #ffe6e9); color: #444; }
+#step3 { background: linear-gradient(180deg, #fffaf0, #fff3e0); color: #444; }
 
 /* Countdown */
-.countdown { font-size: clamp(4rem,12vw,7rem); font-family: 'Baloo 2', cursive; margin-top:20px; letter-spacing:4px; }
+.countdown {
+  font-size: clamp(4rem, 12vw, 7rem);
+  font-family: 'Baloo 2', cursive;
+  margin-top: 20px;
+  letter-spacing: 4px;
+}
 
 /* Music Button */
-.music-btn { position:fixed; top:16px; right:16px; z-index:10; background: rgba(255,255,255,0.9); border:none; border-radius:50%; width:46px; height:46px; font-size:1.2rem; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+.music-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
 
 /* Gifts */
-.gift-area { display:flex; gap:clamp(20px,6vw,50px); flex-wrap:wrap; justify-content:center; margin-top:30px; }
-.gift-container { position:relative; }
-.gift { width:110px; height:110px; border-radius:14px; position: relative; cursor:pointer; box-shadow:0 12px 25px rgba(0,0,0,0.25); animation:bounce 2.5s ease-in-out infinite; }
-.gift::before, .gift::after { content:''; position:absolute; background:rgba(255,255,255,0.85); }
-.gift::before { width:100%; height:16px; top:45%; left:0; } 
-.gift::after { width:16px; height:100%; left:45%; top:0; }
-.gift.red { background: linear-gradient(135deg,#ff6b6b,#ff8787); }
-.gift.blue { background: linear-gradient(135deg,#4dabf7,#74c0fc); }
-.gift.green { background: linear-gradient(135deg,#51cf66,#8ce99a); }
-@keyframes bounce {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
+.gift-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  justify-content: center;
+  margin: 2.5rem 0 3rem;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 4vw;
+}
 
-/* Message Box Over Gift */
+.gift-container {
+  position: relative;
+  width: clamp(100px, 22vw, 130px);
+  aspect-ratio: 1 / 1;
+}
+
+.gift {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.28);
+  animation: bounce 2.8s ease-in-out infinite;
+  transition: all 0.6s ease;
+}
+.gift::before, .gift::after {
+  content: '';
+  position: absolute;
+  background: rgba(255,255,255,0.85);
+}
+.gift::before { width: 100%; height: 16px; top: 45%; left: 0; }
+.gift::after  { width: 16px; height: 100%; left: 45%; top: 0; }
+
+.gift.red   { background: linear-gradient(135deg, #ff6b6b, #ff8787); }
+.gift.blue  { background: linear-gradient(135deg, #4dabf7, #74c0fc); }
+.gift.green { background: linear-gradient(135deg, #51cf66, #8ce99a); }
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-10px); }
+}
+
+/* Message Box */
 .msg-box {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  padding:14px 18px;
-  background:rgba(255,255,255,0.95);
-  color:#444;
-  border-radius:18px;
-  border:2px dashed #ff8fab;
-  max-width:200px;
-  font-size:0.95rem;
-  display:none;
-  opacity:0;
-  transition: opacity 0.8s ease, transform 0.5s ease;
-  z-index:2;
-  text-align:center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.6);
+  padding: 1rem 1.3rem;
+  background: rgba(255,255,255,0.96);
+  color: #333;
+  border-radius: 16px;
+  border: 2px dashed #ff8fab;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  font-size: clamp(0.9rem, 2.8vw, 1.05rem);
+  line-height: 1.45;
+  text-align: center;
+  min-width: 140px;
+  max-width: 260px;
+  width: max-content;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.8s ease,
+    transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 2;
+}
+
+.msg-box.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@media (max-width: 480px) {
+  .msg-box {
+    max-width: 220px;
+    font-size: 0.92rem;
+    padding: 0.9rem 1.1rem;
+  }
 }
 
 /* Letter */
-.envelope { width:220px; height:140px; background:#fff3e0; border-radius:12px; overflow:hidden; cursor:pointer; position:relative; }
-.envelope .letter { position:absolute; top:100%; width:100%; height:100%; background:#fff; padding:14px; border-radius:8px; box-shadow:0 8px 15px rgba(0,0,0,0.2); transition: top 1s ease; }
-.envelope.open .letter { top:0; }
+.envelope {
+  width: 220px;
+  height: 140px;
+  background: #fff3e0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+.envelope .letter {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  padding: 14px;
+  border-radius: 8px;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  transition: top 1s ease;
+}
+.envelope.open .letter { top: 0; }
 
 /* Confetti */
-.confetti { position:fixed; inset:0; pointer-events:none; z-index:20; overflow:visible; }
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  overflow: visible;
+}
 
-/* Arrow Button */
-.arrow-btn { margin-top:30px; padding:12px 25px; background:none; border:none; color:#fff; font-size:3rem; cursor:pointer; }
+/* Arrow / Next Button */
+.arrow-btn, button {
+  margin-top: 30px;
+  padding: 12px 25px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 3rem;
+  cursor: pointer;
+}
+button {
+  font-size: 1.2rem;
+  background: #ff6b6b;
+  color: white;
+  border-radius: 12px;
+  padding: 14px 32px;
+  box-shadow: 0 6px 15px rgba(255,107,107,0.4);
+}
 
 /* Typewriter Animations */
-@keyframes typing { from{width:0;} to{width:100%;} }
-@keyframes blink-caret { 50% { border-color:transparent; } }
-
+@keyframes typing { from { width: 0; } to { width: 100%; } }
+@keyframes blink-caret { 50% { border-color: transparent; } }
 </style>
 </head>
 <body>
@@ -141,15 +294,15 @@ h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bo
   <div class="subtitle">Tap each box to reveal a message</div>
   <div class="gift-area">
     <div class="gift-container">
-      <div class="gift red" onclick="openGift(this,'You make every hangout better 😄')"></div>
+      <div class="gift red" onclick="openGift(this, 'You make every hangout better 😄')"></div>
       <div class="msg-box"></div>
     </div>
     <div class="gift-container">
-      <div class="gift blue" onclick="openGift(this,'Thanks for being real and always there 🤍')"></div>
+      <div class="gift blue" onclick="openGift(this, 'Thanks for being real and always there 🤍')"></div>
       <div class="msg-box"></div>
     </div>
     <div class="gift-container">
-      <div class="gift green" onclick="openGift(this,'Here’s to more memories together 🥳')"></div>
+      <div class="gift green" onclick="openGift(this, 'Here’s to more memories together 🥳')"></div>
       <div class="msg-box"></div>
     </div>
   </div>
@@ -162,7 +315,9 @@ h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bo
   <div class="subtitle">Pull it out slowly</div>
   <div class="envelope" onclick="this.classList.toggle('open')">
     <div class="letter">
-      <p>Dear Bestie,<br><br>Thank you for the laughs, the chaos, and the comfort. Life is brighter with you around, and I’m so grateful for our friendship. I hope this year brings you happiness, growth, and all the good things you deserve.<br><br>Always here for you 🤍</p>
+      <p>Dear Bestie,<br><br>
+      Thank you for the laughs, the chaos, and the comfort. Life is brighter with you around, and I’m so grateful for our friendship. I hope this year brings you happiness, growth, and all the good things you deserve.<br><br>
+      Always here for you 🤍</p>
     </div>
   </div>
 </section>
@@ -170,88 +325,93 @@ h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bo
 <script>
 let currentStep = 0;
 
-function nextStep(step){
-  const prev = document.getElementById('step'+currentStep);
-  const next = document.getElementById('step'+step);
-  prev.style.opacity=0;
-  setTimeout(()=>{
-    prev.style.display='none';
-    next.style.display='flex';
-    setTimeout(()=>{ next.style.opacity=1; },50);
-    currentStep=step;
-  },1000);
+function nextStep(step) {
+  const prev = document.getElementById('step' + currentStep);
+  const next = document.getElementById('step' + step);
+  prev.style.opacity = 0;
+  setTimeout(() => {
+    prev.style.display = 'none';
+    next.style.display = 'flex';
+    setTimeout(() => { next.style.opacity = 1; }, 50);
+    currentStep = step;
+  }, 1000);
 }
 
 // Countdown
-let time=10;
-const countdownEl=document.getElementById('countdown');
-const tickSound=document.getElementById('tickSound');
+let time = 10;
+const countdownEl = document.getElementById('countdown');
+const tickSound = document.getElementById('tickSound');
 
-function startCountdown(){
-  countdownEl.textContent=time;
-  const timer=setInterval(()=>{
+function startCountdown() {
+  countdownEl.textContent = time;
+  const timer = setInterval(() => {
     time--;
-    countdownEl.textContent=time;
-    if(time>0 && tickSound){ tickSound.currentTime=0; tickSound.play(); }
-    if(time<=0){
+    countdownEl.textContent = time;
+    if (time > 0 && tickSound) { tickSound.currentTime = 0; tickSound.play(); }
+    if (time <= 0) {
       clearInterval(timer);
       launchConfetti();
-      setTimeout(()=>nextStep(1),1200);
+      setTimeout(() => nextStep(1), 1200);
     }
-  },1000);
+  }, 1000);
 }
 
 // Confetti
-function launchConfetti(){
-  const confetti=document.getElementById('confetti');
-  confetti.innerHTML='';
-  const colors=['#ff6b6b','#ffd43b','#69db7c','#4dabf7','#da77f2'];
-  for(let i=0;i<150;i++){
-    const piece=document.createElement('span');
-    piece.style.background=colors[Math.floor(Math.random()*colors.length)];
-    piece.style.width=12+Math.random()*16+'px';
-    piece.style.height=14+Math.random()*18+'px';
-    piece.style.borderRadius=Math.random()>0.5?'50%':'4px';
-    piece.style.left='50%'; piece.style.top='50%'; piece.style.position='absolute'; piece.style.opacity=1;
+function launchConfetti() {
+  const confetti = document.getElementById('confetti');
+  confetti.innerHTML = '';
+  const colors = ['#ff6b6b','#ffd43b','#69db7c','#4dabf7','#da77f2'];
+  for (let i = 0; i < 150; i++) {
+    const piece = document.createElement('span');
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.width = 12 + Math.random() * 16 + 'px';
+    piece.style.height = 14 + Math.random() * 18 + 'px';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '4px';
+    piece.style.left = '50%';
+    piece.style.top = '50%';
+    piece.style.position = 'absolute';
+    piece.style.opacity = 1;
 
-    const angle=Math.random()*2*Math.PI;
-    const distance=100+Math.random()*250;
-    const dx=Math.cos(angle)*distance;
-    const dy=Math.sin(angle)*distance+50;
-    const duration=2+Math.random()*1.5;
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 100 + Math.random() * 250;
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance + 50;
+    const duration = 2 + Math.random() * 1.5;
 
-    piece.style.transition=`transform ${duration}s ease-out, opacity ${duration}s ease-out`;
+    piece.style.transition = `transform ${duration}s ease-out, opacity ${duration}s ease-out`;
     confetti.appendChild(piece);
 
-    setTimeout(()=>{ piece.style.transform=`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`; piece.style.opacity=0; },50);
+    setTimeout(() => {
+      piece.style.transform = `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720}deg)`;
+      piece.style.opacity = 0;
+    }, 50);
   }
-  setTimeout(()=>{ confetti.innerHTML=''; },3500);
+  setTimeout(() => { confetti.innerHTML = ''; }, 3500);
 }
 
 // Gift unwrap
-function openGift(gift,msg){
-  if(gift.classList.contains('unwrap')) return;
-  gift.style.transition='transform 0.7s ease, opacity 0.7s ease';
-  gift.style.transform='scale(0) rotate(360deg)';
-  gift.style.opacity=0;
+function openGift(gift, msg) {
+  if (gift.classList.contains('unwrap')) return;
+  
+  gift.style.transition = 'transform 0.7s ease, opacity 0.7s ease';
+  gift.style.transform = 'scale(0) rotate(360deg)';
+  gift.style.opacity = 0;
 
-  const box=gift.parentElement.querySelector('.msg-box');
-  setTimeout(()=>{
-    box.textContent=msg;
-    box.style.display='block';
-    box.style.opacity=0;
-    box.style.transform='scale(0.5)';
-    setTimeout(()=>{
-      box.style.opacity=1;
-      box.style.transform='scale(1)';
-    },50);
-  },700);
+  const box = gift.parentElement.querySelector('.msg-box');
+  setTimeout(() => {
+    box.textContent = msg;
+    box.classList.add('show');
+  }, 700);
+  
   gift.classList.add('unwrap');
 }
 
 // Music
-const bgMusic=document.getElementById('bgMusic');
-function toggleMusic(){ if(bgMusic.paused) bgMusic.play(); else bgMusic.pause(); }
+const bgMusic = document.getElementById('bgMusic');
+function toggleMusic() {
+  if (bgMusic.paused) bgMusic.play();
+  else bgMusic.pause();
+}
 
 // Start
 nextStep(0);
