@@ -80,7 +80,6 @@
       background: linear-gradient(135deg, #ffe6f0, #fef3c7, #d8f3dc);
       color: #444;
     }
-    /* Subtle sparkle overlay */
     #step1::before {
       content: '';
       position: absolute;
@@ -115,6 +114,10 @@
       z-index: 1;
     }
 
+    .gift-container {
+      position: relative; /* Added to position msg box relative to gift */
+    }
+
     .gift {
       width: 110px;
       height: 110px;
@@ -123,6 +126,7 @@
       cursor: pointer;
       box-shadow: 0 12px 25px rgba(0,0,0,0.25);
       animation: bounce 2.5s ease-in-out infinite;
+      z-index: 1;
     }
 
     .gift::before, .gift::after {
@@ -139,20 +143,24 @@
 
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
 
+    /* Message box now absolute over gift */
     .msg-box {
-      margin-top: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       padding: 14px 18px;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.95);
       color: #444;
       border-radius: 18px;
       border: 2px dashed #ff8fab;
-      max-width: 240px;
+      max-width: 180px;
       font-size: 0.95rem;
       display: none;
       opacity: 0;
-      transition: opacity 0.8s ease;
-      position: relative;
-      z-index: 1;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      z-index: 2;
+      text-align: center;
     }
 
     /* Letter */
@@ -213,9 +221,18 @@
   <h1>Unbox the Gifts 🎉</h1>
   <div class="subtitle">Tap each box to reveal a message</div>
   <div class="gift-area">
-    <div><div class="gift red" onclick="openGift(this,'You make every hangout better 😄')"></div><div class="msg-box"></div></div>
-    <div><div class="gift blue" onclick="openGift(this,'Thanks for being real and always there 🤍')"></div><div class="msg-box"></div></div>
-    <div><div class="gift green" onclick="openGift(this,'Here’s to more memories together 🥳')"></div><div class="msg-box"></div></div>
+    <div class="gift-container">
+      <div class="gift red" onclick="openGift(this,'You make every hangout better 😄')"></div>
+      <div class="msg-box"></div>
+    </div>
+    <div class="gift-container">
+      <div class="gift blue" onclick="openGift(this,'Thanks for being real and always there 🤍')"></div>
+      <div class="msg-box"></div>
+    </div>
+    <div class="gift-container">
+      <div class="gift green" onclick="openGift(this,'Here’s to more memories together 🥳')"></div>
+      <div class="msg-box"></div>
+    </div>
   </div>
   <button onclick="nextStep(2)">Next 💌</button>
 </section>
@@ -308,6 +325,8 @@ function launchConfetti(){
 // Gift unwrap
 function openGift(gift,msg){
   if(gift.classList.contains('unwrap')) return;
+
+  // Animate gift
   gift.style.transition = 'transform 0.7s ease, opacity 0.7s ease';
   gift.style.transform = 'scale(0) rotate(360deg)';
   gift.style.opacity = 0;
@@ -317,8 +336,13 @@ function openGift(gift,msg){
     box.textContent = msg;
     box.style.display = 'block';
     box.style.opacity = 0;
-    setTimeout(()=>{ box.style.opacity = 1; }, 50);
+    box.style.transform = 'translate(-50%, -60%) scale(0.8)';
+    setTimeout(()=>{
+      box.style.opacity = 1;
+      box.style.transform = 'translate(-50%, -50%) scale(1)';
+    }, 50);
   }, 700);
+
   gift.classList.add('unwrap');
 }
 
