@@ -6,158 +6,179 @@
 <title>Birthday Surprise 🎁</title>
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&family=Great+Vibes&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; margin:0; padding:0; }
-html, body { height:100%; width:100%; overflow-x:hidden; font-family: 'Fredoka', cursive; text-align:center; background:#fffaf0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; } /* remove all scroll */
+body {
+  font-family: 'Fredoka', cursive;
+  text-align: center;
+  background: #000;
+  color: #fff;
+}
 
 /* Sections */
-section { min-height:100vh; display:none; align-items:center; justify-content:center; flex-direction:column; padding:20px; opacity:0; transition:opacity 1s ease; }
-section.active { display:flex; opacity:1; }
-
-h1 { font-family:'Baloo 2', cursive; margin-bottom:20px; line-height:1.2; }
-.subtitle { font-size:clamp(1rem,3vw,1.2rem); opacity:0.85; margin-bottom:30px; }
-
-/* Step 0: Are you ready */
-#step0 { background:#000; color:#fff; display:flex; flex-direction:column; justify-content:center; height:100vh; overflow:hidden; }
-
-/* Step 1: Happy Birthday */
-#step1 { position:relative; color:#fff; height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-
-#step1 .collage {
-  position:absolute; inset:0; display:grid; grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(3,1fr); z-index:0;
+section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 1s ease;
 }
-#step1 .collage img {
-  width:100%; height:100%; object-fit:cover; filter: brightness(0.25);
+section.active { display: flex; opacity: 1; }
+
+/* Step 0 */
+#step0 { background: #000; }
+.countdown {
+  font-size: clamp(4rem, 12vw, 7rem);
+  letter-spacing: 4px;
 }
-
-#step1 .container { 
-  position:relative; 
-  z-index:2; 
-  background: rgba(0,0,0,0.6); 
-  padding:clamp(15px,5vw,30px); 
-  border-radius:20px; 
-  box-shadow:0 15px 25px rgba(0,0,0,0.3); 
-  color:#fff; 
-  max-width:90vw;
-  max-height:85vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* Birthday Font Responsive */
-#step1 .typewriter h1 {
-  font-family: 'Pacifico', cursive;
-  font-size: clamp(2rem, 8vw, 3.5rem);
-  color: #ffd43b;
-  text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
-  overflow-wrap: break-word;
-  text-align:center;
-  margin:0;
-  line-height:1.1;
-  border-right:.15em solid #fff;
-  white-space:normal;
-  letter-spacing:.05em;
-  animation: typing 3s steps(30,end), blink-caret .75s step-end infinite;
-}
-
-/* Step 2 & 3 */
-#step2 { background: linear-gradient(180deg,#fff1f3,#ffe6e9); color:#444; }
-#step3 { background: linear-gradient(180deg,#fffaf0,#fff3e0); color:#444; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:30px; }
-
-/* Countdown */
-.countdown { font-size: clamp(4rem,12vw,7rem); font-family: 'Baloo 2', cursive; margin-top:20px; letter-spacing:4px; }
-
-/* Music Button */
-.music-btn { position:fixed; top:16px; right:16px; z-index:10; background: rgba(255,255,255,0.9); border:none; border-radius:50%; width:46px; height:46px; font-size:1.2rem; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.2); }
-
-/* Gifts */
-.gift-area { display:flex; gap:clamp(20px,6vw,50px); flex-wrap:wrap; justify-content:center; margin-top:30px; }
-.gift-container { position:relative; }
-.gift { width:clamp(80px,15vw,110px); height:clamp(80px,15vw,110px); border-radius:14px; position: relative; cursor:pointer; box-shadow:0 12px 25px rgba(0,0,0,0.25); animation:bounce 2.5s ease-in-out infinite; }
-.gift::before, .gift::after { content:''; position:absolute; background:rgba(255,255,255,0.85); }
-.gift::before { width:100%; height:16px; top:45%; left:0; } 
-.gift::after { width:16px; height:100%; left:45%; top:0; }
-.gift.red { background: linear-gradient(135deg,#ff6b6b,#ff8787); }
-.gift.blue { background: linear-gradient(135deg,#4dabf7,#74c0fc); }
-.gift.green { background: linear-gradient(135deg,#51cf66,#8ce99a); }
-@keyframes bounce {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
-
-/* Message Box Above Gift */
-.msg-box {
-  position: absolute;
-  bottom: 125%; 
-  left: 50%;
-  transform: translateX(-50%);
-  padding:12px 16px;
-  background:rgba(255,255,255,0.95);
-  color:#444;
-  border-radius:16px;
-  border:2px dashed #ff8fab;
-  max-width:160px;
-  font-size:0.9rem;
-  display:none;
-  opacity:0;
-  transition: opacity 0.8s ease, transform 0.5s ease;
-  z-index:2;
-  text-align:center;
-  box-shadow:0 6px 12px rgba(0,0,0,0.15);
-  word-wrap: break-word;
-}
-
-/* Next Button Design */
-section#step2 button {
-  margin-top:40px;
-  padding:12px 28px;
-  font-size:clamp(1rem,3vw,1.25rem);
-  background: linear-gradient(135deg,#ff6b6b,#ff8787);
-  color:#fff;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  box-shadow:0 8px 20px rgba(0,0,0,0.25);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-section#step2 button:hover {
-  transform: translateY(-3px);
-  box-shadow:0 12px 25px rgba(0,0,0,0.35);
-}
-
-/* Letter - Bigger envelope */
-.envelope { width:clamp(220px,35vw,280px); height:clamp(150px,25vw,180px); background:#fff3e0; border-radius:12px; overflow:hidden; cursor:pointer; position:relative; }
-.envelope .letter { position:absolute; top:100%; width:100%; height:100%; background:#fff; padding:16px; border-radius:8px; box-shadow:0 8px 15px rgba(0,0,0,0.2); transition: top 1s ease; }
-.envelope.open .letter { top:0; }
 
 /* Confetti */
-.confetti { position:fixed; inset:0; pointer-events:none; z-index:20; overflow:visible; }
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  overflow: visible;
+}
 
-/* Arrow Button */
-.arrow-btn { margin-top:30px; padding:12px 25px; background:none; border:none; color:#fff; font-size:3rem; cursor:pointer; }
+/* Step 1 - Happy 21st Birthday */
+#step1 {
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('BDAY/1.jpg') center/cover no-repeat;
+}
+.floating-container {
+  background: rgba(0,0,0,0.6);
+  padding: 30px 50px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  max-width: 90%;
+}
+.birthday-text {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: white; /* white color */
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: .15em solid #fff;
+  width: 0;
+  animation: typing 3s steps(30, end) forwards, blink-caret 0.75s step-end infinite;
+}
+@keyframes typing { from { width: 0; } to { width: 100%; } }
+@keyframes blink-caret { from, to { border-color: transparent; } 50% { border-color: white; } }
+.next-arrow {
+  margin-top: 40px;
+  font-size: 3rem;
+  color: white;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
 
-/* Typewriter Animations */
-@keyframes typing { from{width:0;} to{width:100%;} }
-@keyframes blink-caret { 50% { border-color:transparent; } }
+/* Step 2 - Gifts */
+.gift-area {
+  display: flex;
+  gap: clamp(20px, 6vw, 50px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.gift-container { position: relative; width: 110px; height: 110px; }
+.gift {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+  animation: bounce 2.5s ease-in-out infinite;
+}
+.gift::before, .gift::after {
+  content: '';
+  position: absolute;
+  background: rgba(255,255,255,0.85);
+}
+.gift::before { width: 100%; height: 16px; top: 45%; left: 0; }
+.gift::after { width: 16px; height: 100%; left: 45%; top: 0; }
+.gift.red { background: linear-gradient(135deg, #ff6b6b, #ff8787); }
+.gift.blue { background: linear-gradient(135deg, #4dabf7, #74c0fc); }
+.gift.green { background: linear-gradient(135deg, #51cf66, #8ce99a); }
+@keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
 
-/* Responsive Adjustments */
-@media (max-width:600px){
-  #step1 .typewriter h1 { font-size: clamp(1.8rem, 10vw, 2.8rem); }
-  #step1 .container { max-height:70vh; padding:15px; }
-  .gift { width:70px; height:70px; }
-  .msg-box { max-width:140px; font-size:0.85rem; bottom:130%; padding:10px 14px; }
-  section#step2 button { font-size:1rem; padding:10px 22px; }
-  .envelope { width:90vw; height:30vh; }
+/* Msg Box on top of gift */
+.msg-box {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.95);
+  color: #444;
+  border-radius: 14px;
+  padding: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Step 3 - Letter */
+#step3 { background: #000; }
+.envelope {
+  width: 320px; /* larger */
+  height: 200px;
+  background: #fff3e0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+.envelope .letter {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: top 1s ease;
+}
+.envelope.open .letter { top: 0; }
+
+/* Music Button */
+.music-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  width: 46px;
+  height: 46px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 </style>
 </head>
 <body>
 
+<!-- Confetti -->
+<div class="confetti" id="confetti"></div>
+
+<!-- Music -->
 <button class="music-btn" onclick="toggleMusic()">🎵</button>
 <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
 <audio id="tickSound"><source src="countdown.mp3" type="audio/mpeg"></audio>
-<div class="confetti" id="confetti"></div>
 
 <!-- Step 0 -->
 <section class="active" id="step0">
@@ -166,26 +187,15 @@ section#step2 button:hover {
   <div class="countdown" id="countdown">10</div>
 </section>
 
-<!-- Step 1: Happy Birthday -->
+<!-- Step 1 -->
 <section id="step1">
-  <div class="collage">
-    <img src="BDAY/1.jpg"/>
-    <img src="BDAY/2.jpg"/>
-    <img src="BDAY/3.jpg"/>
-    <img src="BDAY/4.jpg"/>
-    <img src="BDAY/5.jpg"/>
-    <img src="BDAY/6.jpg"/>
-    <img src="BDAY/7.jpg"/>
-    <img src="BDAY/8.jpg"/>
-    <img src="BDAY/9.jpg"/>
-  </div>
-  <div class="container typewriter">
-    <h1>Happy 21st Birthday!</h1>
-    <button class="arrow-btn" onclick="nextStep(2)">→</button>
+  <div class="floating-container">
+    <div class="birthday-text">Happy 21st Birthday!</div>
+    <button class="next-arrow" onclick="nextStep(2)">&#8594;</button>
   </div>
 </section>
 
-<!-- Step 2: Unbox Gifts -->
+<!-- Step 2 -->
 <section id="step2">
   <h1>Unbox the Gifts 🎉</h1>
   <div class="subtitle">Tap each box to reveal a message</div>
@@ -206,7 +216,7 @@ section#step2 button:hover {
   <button onclick="nextStep(3)">Next 💌</button>
 </section>
 
-<!-- Step 3: Letter -->
+<!-- Step 3 -->
 <section id="step3">
   <h1>A Letter for You 💌</h1>
   <div class="subtitle">Pull it out slowly</div>
@@ -219,34 +229,32 @@ section#step2 button:hover {
 
 <script>
 let currentStep = 0;
-
 function nextStep(step){
   const prev = document.getElementById('step'+currentStep);
   const next = document.getElementById('step'+step);
-  prev.style.opacity=0;
+  prev.style.opacity = 0;
   setTimeout(()=>{
     prev.style.display='none';
     next.style.display='flex';
     setTimeout(()=>{ next.style.opacity=1; },50);
-    currentStep=step;
+    currentStep = step;
   },1000);
 }
 
 // Countdown
-let time=10;
-const countdownEl=document.getElementById('countdown');
-const tickSound=document.getElementById('tickSound');
-
+let time = 10;
+const countdownEl = document.getElementById('countdown');
+const tickSound = document.getElementById('tickSound');
 function startCountdown(){
-  countdownEl.textContent=time;
+  countdownEl.textContent = time;
+  launchConfetti(); // start immediately
   const timer=setInterval(()=>{
     time--;
     countdownEl.textContent=time;
-    if(time>0 && tickSound){ tickSound.currentTime=0; tickSound.play(); }
+    if(tickSound){ tickSound.currentTime=0; tickSound.play(); }
     if(time<=0){
       clearInterval(timer);
-      launchConfetti();
-      setTimeout(()=>nextStep(1),1200);
+      nextStep(1);
     }
   },1000);
 }
@@ -262,44 +270,39 @@ function launchConfetti(){
     piece.style.width=12+Math.random()*16+'px';
     piece.style.height=14+Math.random()*18+'px';
     piece.style.borderRadius=Math.random()>0.5?'50%':'4px';
-    piece.style.left='50%'; piece.style.top='50%'; piece.style.position='absolute'; piece.style.opacity=1;
-
+    piece.style.left='50%';
+    piece.style.top='50%';
+    piece.style.position='absolute';
+    piece.style.opacity=1;
     const angle=Math.random()*2*Math.PI;
     const distance=100+Math.random()*250;
     const dx=Math.cos(angle)*distance;
     const dy=Math.sin(angle)*distance+50;
     const duration=2+Math.random()*1.5;
-
     piece.style.transition=`transform ${duration}s ease-out, opacity ${duration}s ease-out`;
     confetti.appendChild(piece);
-
     setTimeout(()=>{ piece.style.transform=`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`; piece.style.opacity=0; },50);
   }
   setTimeout(()=>{ confetti.innerHTML=''; },3500);
 }
 
-// Gift unwrap
+// Gifts
 function openGift(gift,msg){
   if(gift.classList.contains('unwrap')) return;
   gift.style.transition='transform 0.7s ease, opacity 0.7s ease';
   gift.style.transform='scale(0) rotate(360deg)';
   gift.style.opacity=0;
-
   const box=gift.parentElement.querySelector('.msg-box');
   setTimeout(()=>{
     box.textContent=msg;
-    box.style.display='block';
+    box.style.display='flex';
     box.style.opacity=0;
-    box.style.transform='scale(0.5)';
-    setTimeout(()=>{
-      box.style.opacity=1;
-      box.style.transform='scale(1)';
-    },50);
+    setTimeout(()=>{ box.style.opacity=1; },50);
   },700);
   gift.classList.add('unwrap');
 }
 
-// Music
+// Music toggle
 const bgMusic=document.getElementById('bgMusic');
 function toggleMusic(){ if(bgMusic.paused) bgMusic.play(); else bgMusic.pause(); }
 
@@ -307,6 +310,5 @@ function toggleMusic(){ if(bgMusic.paused) bgMusic.play(); else bgMusic.pause();
 nextStep(0);
 startCountdown();
 </script>
-
 </body>
 </html>
