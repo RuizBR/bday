@@ -109,7 +109,6 @@ h1 {
   animation: fadeAnimation 10s ease-in-out infinite alternate;
 }
 
-/* Random delays for a dynamic feel */
 #step1 .bg-collage-step1 img:nth-child(1) { animation-delay: 0s; }
 #step1 .bg-collage-step1 img:nth-child(2) { animation-delay: 1s; }
 #step1 .bg-collage-step1 img:nth-child(3) { animation-delay: 2s; }
@@ -233,7 +232,7 @@ button { margin-top: 40px; padding: 12px 28px; border: none; border-radius: 30px
 <div class="confetti" id="confetti"></div>
 
 <!-- Step 0: Are You Ready -->
-<section class="active" id="step0">
+<section id="step0" class="active">
   <h1>Are you ready? 🎁</h1>
   <div class="subtitle">The surprise starts in</div>
   <div class="countdown" id="countdown">10</div>
@@ -257,11 +256,11 @@ button { margin-top: 40px; padding: 12px 28px; border: none; border-radius: 30px
 
   <div class="birthday-container">
     <div class="typewriter">Happy 21st Birthday!</div>
-    <button class="arrow-btn" onclick="nextStep(2)">➤</button>
+    <button class="arrow-btn" onclick="showStep(2)">➤</button>
   </div>
 </section>
 
-<!-- Step 2: Unbox Gifts -->
+<!-- Step 2: Gifts -->
 <section id="step2">
   <h1>Unbox the Gifts 🎉</h1>
   <div class="subtitle">Tap each box to reveal a message</div>
@@ -293,19 +292,10 @@ button { margin-top: 40px; padding: 12px 28px; border: none; border-radius: 30px
 </section>
 
 <script>
-let currentStep = 0;
-
-function nextStep(step){
-  const prev = document.getElementById('step'+currentStep);
-  const next = document.getElementById('step'+step);
-
-  prev.style.opacity = 0;
-  setTimeout(()=>{
-    prev.style.display = 'none';
-    next.style.display = 'flex';
-    setTimeout(()=>{ next.style.opacity = 1; }, 50);
-    currentStep = step;
-  }, 800);
+// Show step by adding/removing active class
+function showStep(step){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step'+step).classList.add('active');
 }
 
 // Countdown
@@ -322,7 +312,7 @@ function startCountdown(){
     if(time < 0){
       clearInterval(timer);
       launchConfetti();
-      setTimeout(()=>nextStep(1), 1000);
+      setTimeout(()=>showStep(1), 1000);
     }
   }, 1000);
 }
@@ -353,7 +343,7 @@ function launchConfetti(){
   setTimeout(()=>{ confetti.innerHTML=''; }, 3500);
 }
 
-// Gift unwrap
+// Gifts
 function openGift(gift,msg){
   if(gift.classList.contains('unwrap')) return;
   gift.style.transform='scale(0) rotate(360deg)';
@@ -372,7 +362,7 @@ function openGift(gift,msg){
 const bgMusic=document.getElementById('bgMusic');
 function toggleMusic(){ if(bgMusic.paused) bgMusic.play(); else bgMusic.pause(); }
 
-nextStep(0);
+// Initialize
 startCountdown();
 </script>
 
