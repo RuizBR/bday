@@ -92,26 +92,34 @@
       position: relative;
       z-index: 2;
       background: rgba(0, 0, 0, 0.65);
-      padding: clamp(1.8rem, 5vw, 4rem) clamp(1.2rem, 4vw, 3.2rem);
+      padding: clamp(2rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 3.5rem);
       border-radius: 20px;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
-      max-width: 92vw;
+      max-width: 90vw;
       width: 100%;
-      max-width: 620px;
+      max-width: 680px;
       backdrop-filter: blur(6px);
+      overflow: hidden;           /* prevents text overflow */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     #step1 .typewriter h1 {
       font-family: 'Pacifico', cursive;
-      font-size: clamp(2.6rem, 9vw, 5.4rem);
-      line-height: 1.05;
-      color: #ffd43b;
-      text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6);
-      margin: 0.4em 0 0.6em;
+      font-size: clamp(2.4rem, 8vw, 4.8rem);   /* smaller max size */
+      line-height: 1.1;
+      color: white;                            /* ← changed to white as requested */
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+      margin: 0.4em 0 0.8em;
+      padding: 0 0.5em;                        /* extra inner spacing */
       overflow: hidden;
       border-right: .15em solid #fff;
       white-space: nowrap;
       animation: typing 3.5s steps(30, end), blink-caret .9s step-end infinite;
+      max-width: 100%;                         /* ensures it stays inside */
+      text-align: center;
     }
 
     /* ── GIFTS (STEP 2) ─────────────────────────────── */
@@ -154,40 +162,16 @@
       background: rgba(255, 255, 255, 0.9);
     }
 
-    .gift::before {
-      width: 100%;
-      height: 16px;
-      top: 45%;
-      left: 0;
-    }
+    .gift::before { width: 100%; height: 16px; top: 45%; left: 0; }
+    .gift::after  { width: 16px;  height: 100%; left: 45%; top: 0; }
 
-    .gift::after {
-      width: 16px;
-      height: 100%;
-      left: 45%;
-      top: 0;
-    }
-
-    .gift.red {
-      background: linear-gradient(135deg, #ff6b6b, #ff8f8f);
-    }
-
-    .gift.blue {
-      background: linear-gradient(135deg, #4dabf7, #7ac8ff);
-    }
-
-    .gift.green {
-      background: linear-gradient(135deg, #51cf66, #90e0b0);
-    }
+    .gift.red   { background: linear-gradient(135deg, #ff6b6b, #ff8f8f); }
+    .gift.blue  { background: linear-gradient(135deg, #4dabf7, #7ac8ff); }
+    .gift.green { background: linear-gradient(135deg, #51cf66, #90e0b0); }
 
     @keyframes bounce {
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
     }
 
     .msg-box {
@@ -220,18 +204,15 @@
       transform: translate(-50%, -50%) scale(1);
     }
 
-    /* Safety for very small screens */
+    /* Safety for small screens */
     @media (max-width: 480px) {
       #step1 .typewriter h1 {
-        font-size: clamp(2.3rem, 10vw, 4.2rem);
+        font-size: clamp(2.2rem, 9.5vw, 4rem);
       }
       .msg-box {
         max-width: 80vw;
         font-size: 0.95rem;
         padding: 0.9rem 1.1rem;
-      }
-      .gift-container {
-        width: clamp(90px, 26vw, 110px);
       }
     }
 
@@ -321,18 +302,12 @@
 
     /* Animations */
     @keyframes typing {
-      from {
-        width: 0;
-      }
-      to {
-        width: 100%;
-      }
+      from { width: 0; }
+      to   { width: 100%; }
     }
 
     @keyframes blink-caret {
-      50% {
-        border-color: transparent;
-      }
+      50% { border-color: transparent; }
     }
   </style>
 </head>
@@ -419,9 +394,7 @@
       setTimeout(() => {
         prev.style.display = "none";
         next.style.display = "flex";
-        setTimeout(() => {
-          next.style.opacity = 1;
-        }, 50);
+        setTimeout(() => { next.style.opacity = 1; }, 50);
         currentStep = step;
       }, 1000);
     }
@@ -448,7 +421,7 @@
       }, 1000);
     }
 
-    // Confetti (simplified version)
+    // Confetti
     function launchConfetti() {
       const confetti = document.getElementById("confetti");
       confetti.innerHTML = "";
@@ -478,9 +451,7 @@
           piece.style.opacity = "0";
         }, 30);
       }
-      setTimeout(() => {
-        confetti.innerHTML = "";
-      }, 3000);
+      setTimeout(() => { confetti.innerHTML = ""; }, 3000);
     }
 
     // Gift open
@@ -500,14 +471,14 @@
       gift.classList.add("unwrap");
     }
 
-    // Music toggle
+    // Music
     const bgMusic = document.getElementById("bgMusic");
     function toggleMusic() {
       if (bgMusic.paused) bgMusic.play().catch(() => {});
       else bgMusic.pause();
     }
 
-    // Start everything
+    // Start
     nextStep(0);
     startCountdown();
   </script>
