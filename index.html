@@ -16,8 +16,8 @@ body { font-family: 'Fredoka', cursive; min-height: 100vh; overflow-x: hidden; t
 section { min-height:100vh; display:none; align-items:center; justify-content:center; flex-direction:column; padding:40px 20px; opacity:0; transition:opacity 1s ease; }
 section.active { display:flex; opacity:1; }
 
-h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bottom:20px; }
-.subtitle { font-size:1.1rem; opacity:0.85; margin-bottom:30px; }
+h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bottom:20px; line-height:1.2; }
+.subtitle { font-size:clamp(1rem,3vw,1.2rem); opacity:0.85; margin-bottom:30px; }
 
 /* Step Backgrounds */
 #step0 { background:#000; color:#fff; }
@@ -29,7 +29,7 @@ h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bo
 #step1 .collage img {
   width:100%; height:100%; object-fit:cover; filter: brightness(0.25);
 }
-#step1 .container { position:relative; z-index:2; background: rgba(0,0,0,0.6); padding:50px 40px; border-radius:20px; box-shadow:0 15px 25px rgba(0,0,0,0.3); color:#fff; }
+#step1 .container { position:relative; z-index:2; background: rgba(0,0,0,0.6); padding:clamp(30px,5vw,50px) clamp(20px,5vw,40px); border-radius:20px; box-shadow:0 15px 25px rgba(0,0,0,0.3); color:#fff; }
 
 /* Fancy Birthday Font */
 #step1 .typewriter h1 {
@@ -57,7 +57,7 @@ h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bo
 /* Gifts */
 .gift-area { display:flex; gap:clamp(20px,6vw,50px); flex-wrap:wrap; justify-content:center; margin-top:30px; }
 .gift-container { position:relative; }
-.gift { width:110px; height:110px; border-radius:14px; position: relative; cursor:pointer; box-shadow:0 12px 25px rgba(0,0,0,0.25); animation:bounce 2.5s ease-in-out infinite; }
+.gift { width:clamp(80px,15vw,110px); height:clamp(80px,15vw,110px); border-radius:14px; position: relative; cursor:pointer; box-shadow:0 12px 25px rgba(0,0,0,0.25); animation:bounce 2.5s ease-in-out infinite; }
 .gift::before, .gift::after { content:''; position:absolute; background:rgba(255,255,255,0.85); }
 .gift::before { width:100%; height:16px; top:45%; left:0; } 
 .gift::after { width:16px; height:100%; left:45%; top:0; }
@@ -69,29 +69,30 @@ h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bo
 /* Message Box Above Gift */
 .msg-box {
   position: absolute;
-  bottom: 120%; /* hover above gift */
+  bottom: 125%; /* hover above gift */
   left: 50%;
   transform: translateX(-50%);
-  padding:14px 18px;
+  padding:12px 16px;
   background:rgba(255,255,255,0.95);
   color:#444;
-  border-radius:18px;
+  border-radius:16px;
   border:2px dashed #ff8fab;
-  max-width:200px;
-  font-size:0.95rem;
+  max-width:160px;
+  font-size:0.9rem;
   display:none;
   opacity:0;
   transition: opacity 0.8s ease, transform 0.5s ease;
   z-index:2;
   text-align:center;
-  box-shadow:0 6px 15px rgba(0,0,0,0.2);
+  box-shadow:0 6px 12px rgba(0,0,0,0.15);
+  word-wrap: break-word;
 }
 
 /* Next Button Design */
 section#step2 button {
   margin-top:40px;
-  padding:14px 28px;
-  font-size:1.25rem;
+  padding:12px 28px;
+  font-size:clamp(1rem,3vw,1.25rem);
   background: linear-gradient(135deg,#ff6b6b,#ff8787);
   color:#fff;
   border:none;
@@ -106,8 +107,8 @@ section#step2 button:hover {
 }
 
 /* Letter */
-.envelope { width:220px; height:140px; background:#fff3e0; border-radius:12px; overflow:hidden; cursor:pointer; position:relative; }
-.envelope .letter { position:absolute; top:100%; width:100%; height:100%; background:#fff; padding:14px; border-radius:8px; box-shadow:0 8px 15px rgba(0,0,0,0.2); transition: top 1s ease; }
+.envelope { width:clamp(180px,30vw,220px); height:clamp(120px,20vw,140px); background:#fff3e0; border-radius:12px; overflow:hidden; cursor:pointer; position:relative; }
+.envelope .letter { position:absolute; top:100%; width:100%; height:100%; background:#fff; padding:12px; border-radius:8px; box-shadow:0 8px 15px rgba(0,0,0,0.2); transition: top 1s ease; }
 .envelope.open .letter { top:0; }
 
 /* Confetti */
@@ -120,6 +121,12 @@ section#step2 button:hover {
 @keyframes typing { from{width:0;} to{width:100%;} }
 @keyframes blink-caret { 50% { border-color:transparent; } }
 
+/* Responsive Adjustments */
+@media (max-width:600px){
+  .gift { width:80px; height:80px; }
+  .msg-box { max-width:140px; font-size:0.85rem; bottom:130%; padding:10px 14px; }
+  section#step2 button { font-size:1rem; padding:10px 22px; }
+}
 </style>
 </head>
 <body>
