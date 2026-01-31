@@ -191,7 +191,32 @@ function startCountdown(){
     if(time<=0){clearInterval(timer); launchConfetti(); setTimeout(()=>nextStep(1),1200);}
   },1000);
 }
+// Gifts functionality
+function openGift(gift, msg) {
+  if (gift.classList.contains("unwrap")) return;
+  gift.style.transition = "transform .7s ease, opacity .7s ease";
+  gift.style.transform = "scale(0) rotate(360deg)";
+  gift.style.opacity = "0";
+  const box = gift.parentElement.querySelector(".msg-box");
+  setTimeout(() => {
+    box.textContent = msg;
+    box.classList.add("show");
+  }, 700);
+  gift.classList.add("unwrap");
+}
 
+// Move to next step
+function nextStep(step) {
+  const current = document.getElementById("step2");
+  const next = document.getElementById("step" + step);
+  current.style.opacity = 0;
+  setTimeout(() => {
+    current.style.display = "none";
+    next.style.display = "flex";
+    setTimeout(() => { next.style.opacity = 1; }, 50);
+  }, 500);
+}
+  
 // Confetti
 function launchConfetti(){
   const confetti=document.getElementById("confetti");
