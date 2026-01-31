@@ -21,6 +21,7 @@ body {
   flex-direction: column;
 }
 
+/* Main collage background */
 .bg-collage {
   position: fixed;
   inset: 0;
@@ -62,6 +63,7 @@ h1 {
 #step0 { background: #000; color: #fff; }
 .countdown { font-size: clamp(4rem, 12vw, 7rem); letter-spacing: 4px; font-family: 'Baloo 2', cursive; }
 
+/* Confetti */
 .confetti {
   position: fixed;
   inset: 0;
@@ -75,13 +77,58 @@ h1 {
   border-radius: 4px;
 }
 
-#step1 .birthday-container {
-  background: rgba(0,0,0,0.5);
-  padding: 40px 30px;
-  border-radius: 20px;
-  display: inline-block;
+/* Step 1: Happy 21st Birthday */
+#step1 {
+  position: relative;
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
+#step1 .bg-collage-step1 {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 4px;
+  opacity: 0.25;
+  filter: brightness(0.2);
+  z-index: -1;
+}
+
+#step1 .bg-collage-step1 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.2;
+  animation: fadeAnimation 10s ease-in-out infinite alternate;
+}
+
+/* Random delays for a dynamic feel */
+#step1 .bg-collage-step1 img:nth-child(1) { animation-delay: 0s; }
+#step1 .bg-collage-step1 img:nth-child(2) { animation-delay: 1s; }
+#step1 .bg-collage-step1 img:nth-child(3) { animation-delay: 2s; }
+#step1 .bg-collage-step1 img:nth-child(4) { animation-delay: 3s; }
+#step1 .bg-collage-step1 img:nth-child(5) { animation-delay: 4s; }
+#step1 .bg-collage-step1 img:nth-child(6) { animation-delay: 5s; }
+#step1 .bg-collage-step1 img:nth-child(7) { animation-delay: 6s; }
+#step1 .bg-collage-step1 img:nth-child(8) { animation-delay: 7s; }
+#step1 .bg-collage-step1 img:nth-child(9) { animation-delay: 8s; }
+#step1 .bg-collage-step1 img:nth-child(10){ animation-delay: 9s; }
+#step1 .bg-collage-step1 img:nth-child(11){ animation-delay: 10s; }
+
+@keyframes fadeAnimation {
+  0% { opacity: 0.2; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.4; transform: scale(1.05) rotate(1deg); }
+  100% { opacity: 0.2; transform: scale(1) rotate(0deg); }
+}
+
+/* Typewriter text */
 .typewriter {
   font-family: 'Great Vibes', cursive;
   font-size: clamp(3rem, 10vw, 6rem);
@@ -96,6 +143,7 @@ h1 {
 @keyframes typing { from { width: 0 } to { width: 100% } }
 @keyframes blink { 50% { border-color: transparent } }
 
+/* Arrow button */
 .arrow-btn {
   margin-top: 30px;
   font-size: 2rem;
@@ -103,8 +151,15 @@ h1 {
   background: none;
   border: none;
   cursor: pointer;
+  animation: pulse 1.5s infinite;
 }
 
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Step 2 & 3: Gifts and Letter */
 #step2, #step3 { 
   background: #111; 
   display: flex;
@@ -156,7 +211,7 @@ button { margin-top: 40px; padding: 12px 28px; border: none; border-radius: 30px
 </head>
 <body>
 
-<!-- Collage Background -->
+<!-- Main Collage Background -->
 <div class="bg-collage">
   <img src="BDAY/1.jpg">
   <img src="BDAY/2.jpg">
@@ -186,6 +241,20 @@ button { margin-top: 40px; padding: 12px 28px; border: none; border-radius: 30px
 
 <!-- Step 1: Happy 21st Birthday -->
 <section id="step1">
+  <div class="bg-collage-step1">
+    <img src="BDAY/1.jpg">
+    <img src="BDAY/2.jpg">
+    <img src="BDAY/3.jpg">
+    <img src="BDAY/4.jpg">
+    <img src="BDAY/5.jpg">
+    <img src="BDAY/6.jpg">
+    <img src="BDAY/7.jpg">
+    <img src="BDAY/8.jpg">
+    <img src="BDAY/9.jpg">
+    <img src="BDAY/10.jpg">
+    <img src="BDAY/11.jpg">
+  </div>
+
   <div class="birthday-container">
     <div class="typewriter">Happy 21st Birthday!</div>
     <button class="arrow-btn" onclick="nextStep(2)">➤</button>
