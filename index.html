@@ -92,34 +92,41 @@
       position: relative;
       z-index: 2;
       background: rgba(0, 0, 0, 0.65);
-      padding: clamp(2rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 3.5rem);
+      padding: clamp(2.2rem, 6vw, 5rem) clamp(1.8rem, 5vw, 4rem);
       border-radius: 20px;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
       max-width: 90vw;
       width: 100%;
-      max-width: 680px;
+      max-width: 720px;
       backdrop-filter: blur(6px);
-      overflow: hidden;           /* prevents text overflow */
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 40vh;               /* gives more vertical breathing room */
     }
 
     #step1 .typewriter h1 {
       font-family: 'Pacifico', cursive;
-      font-size: clamp(2.4rem, 8vw, 4.8rem);   /* smaller max size */
-      line-height: 1.1;
-      color: white;                            /* ← changed to white as requested */
+      font-size: clamp(2.3rem, 7.8vw, 4.6rem);   /* reduced max size to prevent overflow */
+      line-height: 1.15;
+      color: white;
       text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-      margin: 0.4em 0 0.8em;
-      padding: 0 0.5em;                        /* extra inner spacing */
-      overflow: hidden;
-      border-right: .15em solid #fff;
-      white-space: nowrap;
-      animation: typing 3.5s steps(30, end), blink-caret .9s step-end infinite;
-      max-width: 100%;                         /* ensures it stays inside */
+      margin: 0.3em 0 0.7em;
+      padding: 0 0.6em;
+      max-width: 100%;
+      word-wrap: break-word;                    /* allow long words to break */
+      overflow-wrap: break-word;
+      hyphens: auto;                            /* better line breaking in supported browsers */
+      white-space: normal;                      /* ← crucial: allow wrapping to multiple lines */
       text-align: center;
+      animation: typing 4s steps(35, end) forwards, blink-caret 1s step-end infinite;
+    }
+
+    /* Remove typing animation border when wrapped */
+    #step1 .typewriter h1::after {
+      content: none;   /* optional: hide cursor on multi-line */
     }
 
     /* ── GIFTS (STEP 2) ─────────────────────────────── */
@@ -193,9 +200,7 @@
       width: max-content;
       pointer-events: none;
       opacity: 0;
-      transition:
-        opacity 0.8s ease,
-        transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: opacity 0.8s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
       z-index: 2;
     }
 
@@ -204,15 +209,15 @@
       transform: translate(-50%, -50%) scale(1);
     }
 
-    /* Safety for small screens */
+    /* Small screen safety */
     @media (max-width: 480px) {
       #step1 .typewriter h1 {
-        font-size: clamp(2.2rem, 9.5vw, 4rem);
+        font-size: clamp(2.1rem, 9vw, 4rem);
+        padding: 0 0.4em;
       }
       .msg-box {
         max-width: 80vw;
         font-size: 0.95rem;
-        padding: 0.9rem 1.1rem;
       }
     }
 
@@ -246,23 +251,31 @@
       padding: 0.8rem 2rem;
       font-size: 1.2rem;
       cursor: pointer;
-      border: none;
       border-radius: 12px;
     }
 
     .arrow-btn {
-      font-size: 3.2rem;
-      background: rgba(255, 255, 255, 0.2);
+      font-size: 3.5rem;
       color: white;
-      padding: 0.5rem 1.4rem;
+      background: transparent;           /* ← no background color */
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      padding: 0.4rem 1.2rem;
       min-width: 80px;
       backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .arrow-btn:hover {
+      border-color: rgba(255, 255, 255, 0.9);
+      transform: scale(1.1);
     }
 
     button {
       background: #ff6b6b;
       color: white;
       box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+      border: none;
     }
 
     /* Letter (step 3) */
@@ -399,7 +412,6 @@
       }, 1000);
     }
 
-    // Countdown
     let time = 10;
     const countdownEl = document.getElementById("countdown");
     const tickSound = document.getElementById("tickSound");
@@ -421,7 +433,6 @@
       }, 1000);
     }
 
-    // Confetti
     function launchConfetti() {
       const confetti = document.getElementById("confetti");
       confetti.innerHTML = "";
@@ -454,7 +465,6 @@
       setTimeout(() => { confetti.innerHTML = ""; }, 3000);
     }
 
-    // Gift open
     function openGift(gift, msg) {
       if (gift.classList.contains("unwrap")) return;
 
@@ -471,14 +481,12 @@
       gift.classList.add("unwrap");
     }
 
-    // Music
     const bgMusic = document.getElementById("bgMusic");
     function toggleMusic() {
       if (bgMusic.paused) bgMusic.play().catch(() => {});
       else bgMusic.pause();
     }
 
-    // Start
     nextStep(0);
     startCountdown();
   </script>
