@@ -5,279 +5,155 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Birthday Surprise 🎁</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&family=Pacifico&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { overflow: hidden; }
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family: 'Fredoka', cursive; min-height: 100vh; overflow-x: hidden; text-align:center; }
 
-body {
-  font-family: 'Fredoka', cursive;
-  background: #000;
-  color: #fff;
-  text-align: center;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* Sections */
+section { min-height:100vh; display:none; align-items:center; justify-content:center; flex-direction:column; padding:40px 20px; opacity:0; transition:opacity 1s ease; }
+section.active { display:flex; opacity:1; }
+
+h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6vw,4rem); margin-bottom:20px; }
+.subtitle { font-size:1.1rem; opacity:0.85; margin-bottom:30px; }
+
+/* Step Backgrounds */
+#step0 { background:#000; color:#fff; }
+#step1 { position:relative; color:#fff; }
+#step1 .collage {
+  position:absolute; inset:0; display:grid; grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(3,1fr); z-index:0;
+}
+#step1 .collage img {
+  width:100%; height:100%; object-fit:cover; filter: brightness(0.25);
+}
+#step1 .container { position:relative; z-index:2; background: rgba(0,0,0,0.6); padding:50px 40px; border-radius:20px; box-shadow:0 15px 25px rgba(0,0,0,0.3); color:#fff; }
+
+/* Fancy Birthday Font */
+#step1 .typewriter h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(3rem, 8vw, 5rem);
+  color: #ffd43b;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+  overflow:hidden;
+  border-right:.15em solid #fff;
+  white-space:nowrap;
+  letter-spacing:.05em;
+  animation: typing 3s steps(30,end), blink-caret .75s step-end infinite;
 }
 
-/* Main collage background */
-.bg-collage {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  grid-template-rows: repeat(4,1fr);
-  gap: 4px;
-  opacity: 0.25;
-  filter: brightness(0.2);
-  z-index: -1;
-}
+/* Step 2 & 3 */
+#step2 { background: linear-gradient(180deg,#fff1f3,#ffe6e9); color:#444; }
+#step3 { background: linear-gradient(180deg,#fffaf0,#fff3e0); color:#444; }
 
-.bg-collage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+/* Countdown */
+.countdown { font-size: clamp(4rem,12vw,7rem); font-family: 'Baloo 2', cursive; margin-top:20px; letter-spacing:4px; }
 
-section {
-  min-height: 100vh;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
+/* Music Button */
+.music-btn { position:fixed; top:16px; right:16px; z-index:10; background: rgba(255,255,255,0.9); border:none; border-radius:50%; width:46px; height:46px; font-size:1.2rem; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.2); }
 
-section.active { display: flex; opacity: 1; }
+/* Gifts */
+.gift-area { display:flex; gap:clamp(20px,6vw,50px); flex-wrap:wrap; justify-content:center; margin-top:30px; }
+.gift-container { position:relative; }
+.gift { width:110px; height:110px; border-radius:14px; position: relative; cursor:pointer; box-shadow:0 12px 25px rgba(0,0,0,0.25); animation:bounce 2.5s ease-in-out infinite; }
+.gift::before, .gift::after { content:''; position:absolute; background:rgba(255,255,255,0.85); }
+.gift::before { width:100%; height:16px; top:45%; left:0; } 
+.gift::after { width:16px; height:100%; left:45%; top:0; }
+.gift.red { background: linear-gradient(135deg,#ff6b6b,#ff8787); }
+.gift.blue { background: linear-gradient(135deg,#4dabf7,#74c0fc); }
+.gift.green { background: linear-gradient(135deg,#51cf66,#8ce99a); }
+@keyframes bounce {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
 
-h1 {
-  font-size: clamp(2rem,6vw,4rem);
-  margin-bottom: 20px;
-}
-
-.subtitle { font-size: 1.1rem; opacity: 0.85; margin-bottom: 30px; }
-
-#step0 { background: #000; color: #fff; }
-.countdown { font-size: clamp(4rem, 12vw, 7rem); letter-spacing: 4px; font-family: 'Baloo 2', cursive; }
-
-/* Confetti */
-.confetti {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 20;
-}
-
-.confetti span {
-  position: absolute;
-  opacity: 0.9;
-  border-radius: 4px;
-}
-
-/* Step 1: Happy 21st Birthday */
-#step1 {
-  position: relative;
-  background: #000;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-#step1 .bg-collage-step1 {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  gap: 4px;
-  opacity: 0.25;
-  filter: brightness(0.2);
-  z-index: -1;
-}
-
-#step1 .bg-collage-step1 img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.2;
-  animation: fadeAnimation 10s ease-in-out infinite alternate;
-}
-
-#step1 .bg-collage-step1 img:nth-child(1) { animation-delay: 0s; }
-#step1 .bg-collage-step1 img:nth-child(2) { animation-delay: 1s; }
-#step1 .bg-collage-step1 img:nth-child(3) { animation-delay: 2s; }
-#step1 .bg-collage-step1 img:nth-child(4) { animation-delay: 3s; }
-#step1 .bg-collage-step1 img:nth-child(5) { animation-delay: 4s; }
-#step1 .bg-collage-step1 img:nth-child(6) { animation-delay: 5s; }
-#step1 .bg-collage-step1 img:nth-child(7) { animation-delay: 6s; }
-#step1 .bg-collage-step1 img:nth-child(8) { animation-delay: 7s; }
-#step1 .bg-collage-step1 img:nth-child(9) { animation-delay: 8s; }
-#step1 .bg-collage-step1 img:nth-child(10){ animation-delay: 9s; }
-#step1 .bg-collage-step1 img:nth-child(11){ animation-delay: 10s; }
-
-@keyframes fadeAnimation {
-  0% { opacity: 0.2; transform: scale(1) rotate(0deg); }
-  50% { opacity: 0.4; transform: scale(1.05) rotate(1deg); }
-  100% { opacity: 0.2; transform: scale(1) rotate(0deg); }
-}
-
-/* Typewriter text */
-.typewriter {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(3rem, 10vw, 6rem);
-  color: #fff;
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 0.15em solid white;
-  width: 0;
-  animation: typing 3s steps(20) forwards, blink 0.75s step-end infinite alternate;
-}
-
-@keyframes typing { from { width: 0 } to { width: 100% } }
-@keyframes blink { 50% { border-color: transparent } }
-
-/* Arrow button */
-.arrow-btn {
-  margin-top: 30px;
-  font-size: 2rem;
-  color: #fff;
-  background: none;
-  border: none;
-  cursor: pointer;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-}
-
-/* Step 2 & 3: Gifts and Letter */
-#step2, #step3 { 
-  background: #111; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-}
-
-.gift-area { display: flex; gap: 50px; flex-wrap: wrap; justify-content: center; position: relative; }
-
-.gift-container { position: relative; display: flex; flex-direction: column; align-items: center; }
-
-.gift {
-  width: 110px; height: 110px; border-radius: 14px;
-  cursor: pointer; box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.5rem; color: #fff;
-  transition: transform 0.7s ease, opacity 0.7s ease;
-}
-
-.gift.red { background: linear-gradient(135deg, #ff6b6b, #ff8787); }
-.gift.blue { background: linear-gradient(135deg, #4dabf7, #74c0fc); }
-.gift.green { background: linear-gradient(135deg, #51cf66, #8ce99a); }
-
+/* Message Box Over Gift */
 .msg-box {
   position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 12px 16px;
-  background: rgba(255,255,255,0.9);
-  color: #444;
-  border-radius: 12px;
-  border: 2px dashed #ff8fab;
-  max-width: 160px;
-  font-size: 0.9rem;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  padding:14px 18px;
+  background:rgba(255,255,255,0.95);
+  color:#444;
+  border-radius:18px;
+  border:2px dashed #ff8fab;
+  max-width:200px;
+  font-size:0.95rem;
+  display:none;
+  opacity:0;
+  transition: opacity 0.8s ease, transform 0.5s ease;
+  z-index:2;
+  text-align:center;
 }
 
-.envelope { width: 260px; height: 180px; background: #fff3e0; border-radius: 12px; overflow: hidden; cursor: pointer; position: relative; }
-.envelope .letter { position: absolute; top: 100%; width: 100%; height: 100%; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 8px 15px rgba(0,0,0,0.2); transition: top 1s ease; }
-.envelope.open .letter { top: 0; font-size: 1.1rem; line-height: 1.4rem; }
+/* Letter */
+.envelope { width:220px; height:140px; background:#fff3e0; border-radius:12px; overflow:hidden; cursor:pointer; position:relative; }
+.envelope .letter { position:absolute; top:100%; width:100%; height:100%; background:#fff; padding:14px; border-radius:8px; box-shadow:0 8px 15px rgba(0,0,0,0.2); transition: top 1s ease; }
+.envelope.open .letter { top:0; }
 
-button { margin-top: 40px; padding: 12px 28px; border: none; border-radius: 30px; background: #fb6f92; color: #fff; font-size: 1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+/* Confetti */
+.confetti { position:fixed; inset:0; pointer-events:none; z-index:20; overflow:visible; }
+
+/* Arrow Button */
+.arrow-btn { margin-top:30px; padding:12px 25px; background:none; border:none; color:#fff; font-size:3rem; cursor:pointer; }
+
+/* Typewriter Animations */
+@keyframes typing { from{width:0;} to{width:100%;} }
+@keyframes blink-caret { 50% { border-color:transparent; } }
 
 </style>
 </head>
 <body>
 
-<!-- Main Collage Background -->
-<div class="bg-collage">
-  <img src="BDAY/1.jpg">
-  <img src="BDAY/2.jpg">
-  <img src="BDAY/3.jpg">
-  <img src="BDAY/4.jpg">
-  <img src="BDAY/5.jpg">
-  <img src="BDAY/6.jpg">
-  <img src="BDAY/7.jpg">
-  <img src="BDAY/8.jpg">
-  <img src="BDAY/9.jpg">
-  <img src="BDAY/10.jpg">
-  <img src="BDAY/11.jpg">
-</div>
-
 <button class="music-btn" onclick="toggleMusic()">🎵</button>
 <audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
 <audio id="tickSound"><source src="countdown.mp3" type="audio/mpeg"></audio>
-
 <div class="confetti" id="confetti"></div>
 
-<!-- Step 0: Are You Ready -->
-<section id="step0" class="active">
+<!-- Step 0 -->
+<section class="active" id="step0">
   <h1>Are you ready? 🎁</h1>
   <div class="subtitle">The surprise starts in</div>
   <div class="countdown" id="countdown">10</div>
 </section>
 
-<!-- Step 1: Happy 21st Birthday -->
+<!-- Step 1: Happy Birthday -->
 <section id="step1">
-  <div class="bg-collage-step1">
-    <img src="BDAY/1.jpg">
-    <img src="BDAY/2.jpg">
-    <img src="BDAY/3.jpg">
-    <img src="BDAY/4.jpg">
-    <img src="BDAY/5.jpg">
-    <img src="BDAY/6.jpg">
-    <img src="BDAY/7.jpg">
-    <img src="BDAY/8.jpg">
-    <img src="BDAY/9.jpg">
-    <img src="BDAY/10.jpg">
-    <img src="BDAY/11.jpg">
+  <div class="collage">
+    <img src="BDAY/1.jpg"/>
+    <img src="BDAY/2.jpg"/>
+    <img src="BDAY/3.jpg"/>
+    <img src="BDAY/4.jpg"/>
+    <img src="BDAY/5.jpg"/>
+    <img src="BDAY/6.jpg"/>
+    <img src="BDAY/7.jpg"/>
+    <img src="BDAY/8.jpg"/>
+    <img src="BDAY/9.jpg"/>
   </div>
-
-  <div class="birthday-container">
-    <div class="typewriter">Happy 21st Birthday!</div>
-    <button class="arrow-btn" onclick="showStep(2)">➤</button>
+  <div class="container typewriter">
+    <h1>Happy 21st Birthday!</h1>
+    <button class="arrow-btn" onclick="nextStep(2)">→</button>
   </div>
 </section>
 
-<!-- Step 2: Gifts -->
+<!-- Step 2: Unbox Gifts -->
 <section id="step2">
   <h1>Unbox the Gifts 🎉</h1>
   <div class="subtitle">Tap each box to reveal a message</div>
   <div class="gift-area">
     <div class="gift-container">
-      <div class="gift red" onclick="openGift(this,'You make every hangout better 😄')">🎁</div>
+      <div class="gift red" onclick="openGift(this,'You make every hangout better 😄')"></div>
       <div class="msg-box"></div>
     </div>
     <div class="gift-container">
-      <div class="gift blue" onclick="openGift(this,'Thanks for being real and always there 🤍')">🎁</div>
+      <div class="gift blue" onclick="openGift(this,'Thanks for being real and always there 🤍')"></div>
       <div class="msg-box"></div>
     </div>
     <div class="gift-container">
-      <div class="gift green" onclick="openGift(this,'Here’s to more memories together 🥳')">🎁</div>
+      <div class="gift green" onclick="openGift(this,'Here’s to more memories together 🥳')"></div>
       <div class="msg-box"></div>
     </div>
   </div>
+  <button onclick="nextStep(3)">Next 💌</button>
 </section>
 
 <!-- Step 3: Letter -->
@@ -292,69 +168,84 @@ button { margin-top: 40px; padding: 12px 28px; border: none; border-radius: 30px
 </section>
 
 <script>
-// Show step by adding/removing active class
-function showStep(step){
-  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('step'+step).classList.add('active');
+let currentStep = 0;
+
+function nextStep(step){
+  const prev = document.getElementById('step'+currentStep);
+  const next = document.getElementById('step'+step);
+  prev.style.opacity=0;
+  setTimeout(()=>{
+    prev.style.display='none';
+    next.style.display='flex';
+    setTimeout(()=>{ next.style.opacity=1; },50);
+    currentStep=step;
+  },1000);
 }
 
 // Countdown
-let time = 10;
-const countdownEl = document.getElementById('countdown');
-const tickSound = document.getElementById('tickSound');
+let time=10;
+const countdownEl=document.getElementById('countdown');
+const tickSound=document.getElementById('tickSound');
 
 function startCountdown(){
-  countdownEl.textContent = time;
-  const timer = setInterval(()=>{
-    countdownEl.textContent = time;
-    if(tickSound){ tickSound.currentTime=0; tickSound.play(); }
+  countdownEl.textContent=time;
+  const timer=setInterval(()=>{
     time--;
-    if(time < 0){
+    countdownEl.textContent=time;
+    if(time>0 && tickSound){ tickSound.currentTime=0; tickSound.play(); }
+    if(time<=0){
       clearInterval(timer);
       launchConfetti();
-      setTimeout(()=>showStep(1), 1000);
+      setTimeout(()=>nextStep(1),1200);
     }
-  }, 1000);
+  },1000);
 }
 
 // Confetti
 function launchConfetti(){
-  const confetti = document.getElementById('confetti');
+  const confetti=document.getElementById('confetti');
   confetti.innerHTML='';
-  const colors = ['#ff6b6b','#ffd43b','#69db7c','#4dabf7','#da77f2'];
+  const colors=['#ff6b6b','#ffd43b','#69db7c','#4dabf7','#da77f2'];
   for(let i=0;i<150;i++){
     const piece=document.createElement('span');
-    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
-    piece.style.width = 12 + Math.random()*16 + 'px';
-    piece.style.height = 14 + Math.random()*18 + 'px';
-    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '4px';
-    piece.style.left='50%'; piece.style.top='50%';
-    piece.style.position='absolute';
-    piece.style.opacity=1;
+    piece.style.background=colors[Math.floor(Math.random()*colors.length)];
+    piece.style.width=12+Math.random()*16+'px';
+    piece.style.height=14+Math.random()*18+'px';
+    piece.style.borderRadius=Math.random()>0.5?'50%':'4px';
+    piece.style.left='50%'; piece.style.top='50%'; piece.style.position='absolute'; piece.style.opacity=1;
+
     const angle=Math.random()*2*Math.PI;
-    const dist=100+Math.random()*250;
-    const dx=Math.cos(angle)*dist;
-    const dy=Math.sin(angle)*dist;
+    const distance=100+Math.random()*250;
+    const dx=Math.cos(angle)*distance;
+    const dy=Math.sin(angle)*distance+50;
     const duration=2+Math.random()*1.5;
+
     piece.style.transition=`transform ${duration}s ease-out, opacity ${duration}s ease-out`;
     confetti.appendChild(piece);
-    setTimeout(()=>{ piece.style.transform=`translate(${dx}px, ${dy}px) rotate(${Math.random()*720}deg)`; piece.style.opacity=0; }, 50);
+
+    setTimeout(()=>{ piece.style.transform=`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`; piece.style.opacity=0; },50);
   }
-  setTimeout(()=>{ confetti.innerHTML=''; }, 3500);
+  setTimeout(()=>{ confetti.innerHTML=''; },3500);
 }
 
-// Gifts
+// Gift unwrap
 function openGift(gift,msg){
   if(gift.classList.contains('unwrap')) return;
+  gift.style.transition='transform 0.7s ease, opacity 0.7s ease';
   gift.style.transform='scale(0) rotate(360deg)';
   gift.style.opacity=0;
+
   const box=gift.parentElement.querySelector('.msg-box');
   setTimeout(()=>{
     box.textContent=msg;
-    box.style.opacity=0;
     box.style.display='block';
-    setTimeout(()=>{ box.style.opacity=1; }, 50);
-  }, 700);
+    box.style.opacity=0;
+    box.style.transform='scale(0.5)';
+    setTimeout(()=>{
+      box.style.opacity=1;
+      box.style.transform='scale(1)';
+    },50);
+  },700);
   gift.classList.add('unwrap');
 }
 
@@ -362,7 +253,8 @@ function openGift(gift,msg){
 const bgMusic=document.getElementById('bgMusic');
 function toggleMusic(){ if(bgMusic.paused) bgMusic.play(); else bgMusic.pause(); }
 
-// Initialize
+// Start
+nextStep(0);
 startCountdown();
 </script>
 
