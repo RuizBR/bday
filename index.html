@@ -107,8 +107,8 @@
       min-height: 40vh;
     }
 
-    /* Multi-line Happy Birthday */
-    #step1 .typewriter h1 {
+    /* Fade-in for Happy Birthday */
+    #step1 .fade-in h1 {
       font-family: 'Pacifico', cursive;
       font-size: clamp(2.3rem, 7.8vw, 4.6rem);
       line-height: 1.2;
@@ -117,16 +117,15 @@
       margin: 0.3em 0 0.7em;
       padding: 0 0.6em;
       max-width: 100%;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      hyphens: auto;
       white-space: normal;
       text-align: center;
-      animation: typing 3s steps(12, end) forwards, blink-caret 1s step-end infinite;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
     }
 
-    #step1 .typewriter h1::after {
-      content: none;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* ── GIFTS (STEP 2) ─────────────────────────────── */
@@ -210,7 +209,7 @@
     }
 
     @media (max-width: 480px) {
-      #step1 .typewriter h1 {
+      #step1 .fade-in h1 {
         font-size: clamp(2.1rem, 9vw, 4rem);
         padding: 0 0.4em;
       }
@@ -283,8 +282,8 @@
     }
 
     .envelope {
-      width: 240px;
-      height: 160px;
+      width: 320px; /* larger width */
+      height: 220px; /* larger height */
       background: #fff3e0;
       border-radius: 14px;
       overflow: hidden;
@@ -299,25 +298,17 @@
       width: 100%;
       height: 100%;
       background: #fff;
-      padding: 1.2rem;
+      padding: 1.8rem; /* more padding */
       border-radius: 10px;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       transition: top 1.1s ease;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       line-height: 1.6;
+      overflow-y: auto; /* scroll if still too long */
     }
 
     .envelope.open .letter {
       top: 0;
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to   { width: 100%; }
-    }
-
-    @keyframes blink-caret {
-      50% { border-color: transparent; }
     }
   </style>
 </head>
@@ -352,7 +343,7 @@
       <img src="BDAY/8.jpg" />
       <img src="BDAY/9.jpg" />
     </div>
-    <div class="container typewriter">
+    <div class="container fade-in">
       <h1>
         Happy<br />
         Birthday
@@ -390,7 +381,8 @@
       <div class="letter">
         <p>
           Dear Bestie,<br /><br />
-          Happy 21st Birthday, Aliah! You’ve shown the world that strength, independence, and kindness can live beautifully in one amazing woman. Your courage, growth, and determination inspire everyone around you. Through every challenge, you stood tall, grew stronger, and became someone so many people are genuinely proud of. This is only the beginning of even greater things—cheers to the incredible journey ahead of you. 🥂✨🤍
+          Thank you for the laughs, the chaos, and the comfort. Life is brighter with you around, and I’m so grateful for our friendship. I hope this year brings you happiness, growth, and all the good things you deserve.<br /><br />
+          Always here for you 🤍
         </p>
       </div>
     </div>
