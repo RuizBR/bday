@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Surprise 🎁</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Fredoka', cursive;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #ffe6eb, #f7c6d0);
+      color: #444;
+      overflow-x: hidden;
+      text-align: center;
+    }
+
+    .bg-collage {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 6px;
+      opacity: 0.25;
+    }
+
+    .bg-collage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(1px) brightness(0.9);
+    }
+
+    .music-btn {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    section {
+      min-height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 40px 20px;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    section.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      margin-bottom: 30px;
+    }
+
+    #step0 { background: #000; color: #fff; }
+    #step0 h1 { color: #fff; }
+    #step0 .subtitle { color: #ddd; }
+
+    .countdown {
+      font-size: clamp(4rem, 12vw, 7rem);
+      font-family: 'Baloo 2', cursive;
+      margin-top: 20px;
+      letter-spacing: 4px;
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 20;
+      overflow: visible;
+    }
+
+    .confetti span {
+      position: absolute;
+      width: 14px;
+      height: 18px;
+      background: red;
+      border-radius: 4px;
+      opacity: 0.9;
+      animation: burst linear forwards;
+    }
+
+    @keyframes burst {
+      to {
+        transform: translate(var(--x), var(--y)) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .gift-area {
+      display: flex;
+      gap: clamp(20px, 6vw, 50px);
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .gift {
+      width: 110px;
+      height: 110px;
+      border-radius: 14px;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+
+    .gift::before, .gift::after {
+      content: '';
+      position: absolute;
+      background: rgba(255,255,255,0.85);
+    }
+    .gift::before { width: 100%; height: 16px; top: 45%; left: 0; }
+    .gift::after { width: 16px; height: 100%; left: 45%; top: 0; }
+
+    .gift.red { background: linear-gradient(135deg, #ff6b6b, #ff8787); }
+    .gift.blue { background: linear-gradient(135deg, #4dabf7, #74c0fc); }
+    .gift.green { background: linear-gradient(135deg, #51cf66, #8ce99a); }
+
+    @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+
+    .unwrap { animation: unwrap 0.6s ease forwards; }
+    @keyframes unwrap { to { transform: scale(0) rotate(180deg); opacity: 0; } }
+
+    .msg-box {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.9);
+      color: #444;
+      border-radius: 18px;
+      border: 2px dashed #ff8fab;
+      max-width: 240px;
+      font-size: 0.95rem;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    button { margin-top: 40px; padding: 12px 28px; border: none; border-radius: 30px; background: #fb6f92; color: #fff; font-size: 1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+  </style>
+</head>
+<body>
+
+<div class="bg-collage">
+  <img src="IMAGES/1.jpg" />
+  <img src="IMAGES/2.jpg" />
+  <img src="IMAGES/3.jpg" />
+  <img src="IMAGES/4.jpg" />
+  <img src="IMAGES/5.jpg" />
+  <img src="IMAGES/6.jpg" />
+  <img src="IMAGES/7.jpg" />
+  <img src="IMAGES/8.jpg" />
+  <img src="IMAGES/9.jpg" />
+</div>
+
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+<audio id="bgMusic" loop><source src="music.mp3" type="audio/mpeg"></audio>
+<audio id="tickSound"><source src="countdown.mp3" type="audio/mpeg"></audio>
+
+<div class="confetti" id="confetti"></div>
+
+<section class="active" id="step0">
+  <h1>Are you ready? 🎁</h1>
+  <div class="subtitle">The surprise starts in</div>
+  <div class="countdown" id="countdown">10</div>
+</section>
+
+<section id="step1">
+  <h1>Unbox the Gifts 🎉</h1>
+  <div class="subtitle">Tap each box to reveal a message</div>
+  <div class="gift-area">
+    <div><div class="gift red" onclick="openGift(this,'You make every hangout better 😄')"></div><div class="msg-box"></div></div>
+    <div><div class="gift blue" onclick="openGift(this,'Thanks for being real and always there 🤍')"></div><div class="msg-box"></div></div>
+    <div><div class="gift green" onclick="openGift(this,'Here’s to more memories together 🥳')"></div><div class="msg-box"></div></div>
+  </div>
+  <button onclick="nextStep(2)">Next 💌</button>
+</section>
+
+<section id="step2">
+  <h1>A Letter for You 💌</h1>
+  <div class="subtitle">Pull it out slowly</div>
+  <div class="envelope" onclick="this.classList.toggle('open')">
+    <div class="letter">
+      <p>Dear Bestie,<br><br>Thank you for the laughs, the chaos, and the comfort. Life is brighter with you around, and I’m so grateful for our friendship. I hope this year brings you happiness, growth, and all the good things you deserve.<br><br>Always here for you 🤍</p>
+    </div>
+  </div>
+</section>
+
+<script>
+let currentStep=0;
+function nextStep(step){
+  const prev=document.getElementById('step'+currentStep);
+  const next=document.getElementById('step'+step);
+  prev.style.opacity=0;
+  setTimeout(()=>{
+    prev.style.display='none';
+    next.style.display='flex';
+    next.style.opacity=1;
+    currentStep=step;
+  },1000);
+}
+
+let time=10;
+const countdownEl=document.getElementById('countdown');
+const tickSound=document.getElementById('tickSound');
+function startCountdown(){
+  countdownEl.textContent=time;
+  const timer=setInterval(()=>{
+    time--;
+    countdownEl.textContent=time;
+    if(tickSound){tickSound.currentTime=0; tickSound.play();}
+    if(time<=0){
+      clearInterval(timer);
+      launchConfetti();
+      setTimeout(()=>nextStep(1),700);
+    }
+  },1000);
+}
+
+function launchConfetti(){
+  const confetti=document.getElementById('confetti');
+  confetti.innerHTML='';
+  const colors=['#ff6b6b','#ffd43b','#69db7c','#4dabf7','#da77f2'];
+  for(let i=0;i<150;i++){
+    const piece=document.createElement('span');
+    const angle=Math.random()*2*Math.PI;
+    const radius=100+Math.random()*200;
+    piece.style.setProperty('--x', Math.cos(angle)*radius+'px');
+    piece.style.setProperty('--y', Math.sin(angle)*radius+'px');
+    piece.style.background=colors[Math.floor(Math.random()*colors.length)];
+    piece.style.width=12+Math.random()*12+'px';
+    piece.style.height=16+Math.random()*12+'px';
+    piece.style.left='50%';
+    piece.style.top='50%';
+    piece.style.animationDuration=1.5+Math.random()*1.5+'s';
+    confetti.appendChild(piece);
+  }
+  setTimeout(()=>confetti.innerHTML='',3000);
+}
+
+function openGift(gift,msg){
+  if(gift.classList.contains('unwrap')) return;
+  gift.classList.add('unwrap');
+  const box=gift.parentElement.querySelector('.msg-box');
+  box.textContent=msg;
+  box.style.display='block';
+}
+
+const bgMusic=document.getElementById('bgMusic');
+function toggleMusic(){if(bgMusic.paused) bgMusic.play(); else bgMusic.pause();}
+
+nextStep(0);
+startCountdown();
+</script>
+
+</body>
+</html>
