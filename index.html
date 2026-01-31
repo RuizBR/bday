@@ -83,15 +83,11 @@ h1 { font-family:'Baloo 2', cursive; font-size:clamp(2.2rem,6.5vw,4.5rem); margi
 #slideshow { background:#fefefe; color:#333; flex-direction:column; text-align:center; position:relative; }
 .slideshow-container { position:relative; width:90%; max-width:700px; margin:2rem auto; }
 .slideshow-container img { width:100%; height:auto; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,.3); }
-.slide-btn { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.3); border:none; color:white; font-size:2rem; padding:.4rem 1rem; cursor:pointer; border-radius:10px; }
-.slide-btn:hover { background:rgba(0,0,0,.6); }
-.slide-btn.left { left:0; }
-.slide-btn.right { right:0; }
 
 /* --- Buttons, Confetti --- */
 .music-btn { position:fixed; top:16px; right:16px; z-index:100; background:rgba(255,255,255,.9); border:none; border-radius:50%; width:50px; height:50px; font-size:1.4rem; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.25); }
 .confetti { position:fixed; inset:0; pointer-events:none; z-index:20; overflow:visible; }
-.arrow-btn, button { margin-top:2rem; padding:.8rem 2rem; font-size:1.2rem; cursor:pointer; border-radius:12px; }
+.arrow-btn, button { margin-top:1.2rem; padding:.5rem 1.2rem; font-size:1rem; cursor:pointer; border-radius:12px; }
 .arrow-btn { font-size:3.5rem; color:white; background:transparent; border:2px solid rgba(255,255,255,.5); padding:.4rem 1.2rem; min-width:80px; backdrop-filter:blur(8px); box-shadow:0 4px 12px rgba(0,0,0,.3); transition:all .3s ease; }
 .arrow-btn:hover { border-color:rgba(255,255,255,.9); transform:scale(1.1); }
 button { background:#ff6b6b; color:white; box-shadow:0 6px 16px rgba(255,107,107,.4); border:none; }
@@ -172,17 +168,15 @@ button { background:#ff6b6b; color:white; box-shadow:0 6px 16px rgba(255,107,107
       </p>
     </div>
   </div>
-  <button class="arrow-btn" onclick="nextStep('slideshow')">View Memories 📸</button>
+  <button onclick="nextStep('slideshow')" style="font-size:.9rem; padding:.4rem 1rem;">Last one!📸</button>
 </section>
 
 <!-- Slideshow Section -->
 <section id="slideshow">
-  <h1>Memories 📸</h1>
-  <div class="subtitle">Swipe or use arrows to navigate</div>
+  <h1>Happy Birthday!📸</h1>
+  <div class="subtitle">Sit back and enjoy the photos!</div>
   <div class="slideshow-container">
-    <button class="slide-btn left" onclick="changeSlide(-1)">&#10094;</button>
     <img id="slideImage" src="BDAY/1.jpg" alt="Memory" />
-    <button class="slide-btn right" onclick="changeSlide(1)">&#10095;</button>
   </div>
 </section>
 
@@ -204,6 +198,7 @@ function nextStep(step){
     setTimeout(()=>{next.style.opacity=1;},50);
     currentStep = (step==='slideshow') ? 'slideshow' : step;
     if(step===1) startStep1Typewriter();
+    if(step==='slideshow') startAutoSlideshow();
   },1000);
 }
 
@@ -211,7 +206,6 @@ function nextStep(step){
 let time=10;
 const countdownEl=document.getElementById("countdown");
 const tickSound=document.getElementById("tickSound");
-
 function startCountdown(){
   countdownEl.textContent=time;
   const timer=setInterval(()=>{
@@ -281,14 +275,16 @@ function typeWriter(){
 }
 function startStep1Typewriter(){birthdayText.innerHTML=""; i=0; typeWriter();}
 
-// Slideshow
+// Slideshow Auto
 let currentSlide = 1;
 const totalSlides = 12;
-function changeSlide(n){
-  currentSlide += n;
-  if(currentSlide > totalSlides) currentSlide = 1;
-  if(currentSlide < 1) currentSlide = totalSlides;
-  document.getElementById('slideImage').src = `BDAY/${currentSlide}.jpg`;
+let slideshowInterval;
+function startAutoSlideshow(){
+  slideshowInterval = setInterval(()=>{
+    currentSlide++;
+    if(currentSlide>totalSlides) currentSlide=1;
+    document.getElementById('slideImage').src=`BDAY/${currentSlide}.jpg`;
+  }, 2000); // Change every 2 seconds
 }
 
 // Initialize
